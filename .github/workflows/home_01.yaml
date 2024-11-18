@@ -40,7 +40,12 @@ jobs:
       # Конфигурация и генерация CMake файлов
       - name: Configure CMake
         run: |
-          cmake -B ci-cd/build -DCMAKE_TOOLCHAIN_FILE=ci-cd/build/conan_toolchain.cmake -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
+          cmake -B ci-cd/build \
+                -S ci-cd \
+                -DCMAKE_TOOLCHAIN_FILE=ci-cd/build/conan_toolchain.cmake \
+                -DPATCH_VERSION=${{ github.run_number }} \
+                -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
+                -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF)
         #  cd ci-cd/build
         #  cmake .. -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
           
