@@ -23,3 +23,17 @@ configure_file(
 target_include_directories(HelloApp PRIVATE "${CMAKE_BINARY_DIR}")
 target_include_directories(Versionlib PRIVATE "${CMAKE_BINARY_DIR}")
 
+if(BUILD_SHARED_LIBS)
+    install(TARGETS Versionlib LIBRARY DESTINATION lib)
+endif()
+install(TARGETS HelloApp RUNTIME DESTINATION bin)
+
+set(CPACK_GENERATOR DEB)
+
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_PACKAGE_CONTACT rolliks@gmail.com)
+
+include(CPack)
