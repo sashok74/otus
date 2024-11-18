@@ -29,16 +29,16 @@ jobs:
 
       # Создание директории сборки
       - name: Create build directory
-        run: mkdir -p build
+        run: mkdir -p ci-cd/build
 
       # Конфигурация и генерация CMake файлов
       - name: Configure CMake
         run: |
-          cd build
+          cd ci-cd/build
           cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
 
       # Сборка проекта
       - name: Build project
         run: |
-          cd build
+          cd ci-cd/build
           cmake --build .
