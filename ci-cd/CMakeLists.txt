@@ -4,14 +4,21 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 project(HellowPack VERSION ${PROJECT_VESRION})
+enable_testing()
 
 add_subdirectory(lib)
 add_subdirectory(app)
+add_subdirectory(tests)
 
-set_target_properties(HelloApp Versionlib PROPERTIES
-    CXX_STANDARD 14
+set_target_properties(HelloApp Versionlib tests PROPERTIES
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
+
+if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
+   message(FATAL_ERROR "Conan toolchain file not found. Make sure to run `conan install` first.")
+endif()
+include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
 
 # Генерация файла version.h на основе шаблона version.h.in
 # configure_file берет шаблон и заменяет значения в нем на реальные, полученные из переменных
@@ -22,6 +29,7 @@ configure_file(
 
 target_include_directories(HelloApp PRIVATE "${CMAKE_BINARY_DIR}")
 target_include_directories(Versionlib PRIVATE "${CMAKE_BINARY_DIR}")
+target_include_directories(tests PRIVATE "${CMAKE_BINARY_DIR}")
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS Versionlib LIBRARY DESTINATION lib)
@@ -43,3 +51,5 @@ endif()
 set(CPACK_PACKAGE_CONTACT rolliks@gmail.com)
 
 include(CPack)
+
+

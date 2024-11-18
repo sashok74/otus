@@ -26,6 +26,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential cmake
+          
+      - name: Setup Conan
+        uses: conan-io/conan-center-index@v0.0.2
+  
+      - name: Install Conan and project dependencies
+        run: |
+            pip install conan>=2.0
+            conan install . --output-folder=ci-cd/build --build=missing
 
       # Создание директории сборки
       - name: Create build directory
@@ -34,14 +42,21 @@ jobs:
       # Конфигурация и генерация CMake файлов
       - name: Configure CMake
         run: |
-          cd ci-cd/build
-          cmake .. -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
+          cmake -B ci-cd/build -DCMAKE_TOOLCHAIN_FILE=ci-cd/build/conan_toolchain.cmake -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
+        #  cd ci-cd/build
+        #  cmake .. -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
           
       # Сборка проекта
       - name: Build project
         run: |
           cd ci-cd/build
           cmake --build .
+      
+      # Запуск тестов
+      - name: Run tests
+        run: | 
+          cd ci-cd/build
+          ctest .
 
       # Печать версии
       - name: Print project version
