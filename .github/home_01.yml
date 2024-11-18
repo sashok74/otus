@@ -1,0 +1,33 @@
+name: Build ci-cd with dynamic and static linking
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: [SHARED, STATIC]
+        
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up CMake
+        uses: actions/setup-cmake@v1
+      
+      - name: Set up environment
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Create build directory
+        run: mkdir -p ci-cd/build
+
+      - name: Configure CMake
+        run: |
+          cd ci-cd/build
+          cmake .. -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
+        
+      - name: Build project
+        run: |
+          cd ci-cd/build
+          cmake --build .

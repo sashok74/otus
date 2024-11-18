@@ -1,4 +1,4 @@
-add_library(Versionlib SHARED  src/lib.cpp )
+add_library(Versionlib  src/lib.cpp )
 
 target_include_directories(Versionlib PUBLIC  ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

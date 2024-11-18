@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.25)
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 project(HellowPack)
 add_subdirectory(lib)
 add_subdirectory(app)
