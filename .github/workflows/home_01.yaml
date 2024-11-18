@@ -25,19 +25,22 @@ jobs:
       - name: Set up environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake
-  
+          sudo apt-get install -y build-essential cmake python3-pip
+          pip3 install conan>=2.0
+
+
+      # Установка зависимостей через Conan
       - name: Install Conan and project dependencies
         run: |
-            pip install conan>=2.0
-            conan profile detect
-            conan install . --output-folder=ci-cd/build --build=missing
+          conan profile detect
+          conan install . --output-folder=ci-cd/build --build=missing
 
-      # Создание директории сборки
-      - name: Create build directory
-        run: mkdir -p ci-cd/build
+      # Проверка наличия conan_toolchain.cmake
+      - name: Check if toolchain file exists
+        run: |
+          ls ci-cd/build
 
-      # Конфигурация и генерация CMake файлов
+      # Конфигурация CMake с использованием Conan toolchain file
       - name: Configure CMake
         run: |
           cmake -B ci-cd/build \
@@ -46,8 +49,6 @@ jobs:
                 -DPATCH_VERSION=${{ github.run_number }} \
                 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
                 -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF)
-        #  cd ci-cd/build
-        #  cmake .. -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_SHARED_LIBS=${{ matrix.build_type == 'SHARED' }}
           
       # Сборка проекта
       - name: Build project
