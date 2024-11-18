@@ -59,13 +59,12 @@ jobs:
 
       - name: Create Release
         if: matrix.configuration == 'Release'
-        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.tag_name }}
-          release_name: 'Release ${{ steps.create_tag.outputs.tag_name }}'
+          tag_name: ${{ steps.generate_tag.outputs.tag_name }}
+          release_name: "Release ${{ steps.generate_tag.outputs.tag_name }}"
           draft: false
           prerelease: false
         
