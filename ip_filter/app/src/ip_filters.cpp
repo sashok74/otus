@@ -61,6 +61,6 @@ std::vector<IPAddress> FilterIPAddressesAnyOctet(const std::vector<IPAddress>& i
 
 void PrintIPAddresses(const std::vector<IPAddress>& ips) {
     for (const auto& ip : ips) {
-        std::cout << ip << std::endl;
+        std::cout << ip << "\n";
     }
 }

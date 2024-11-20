@@ -3,14 +3,15 @@
 
 int main(int argc, char *argv[]) {
     std::vector<IPAddress> ips;
+    IStream *io;
     if (argc > 1) {
-        FileStream io(argv[1]);
+        io = new FileStream (argv[1]);
     } else {
-        StandardIOStream io;
+        io = new StandardIOStream ();
     }
-    FileStream io("ip_filter.tsv");
+
     //std::cout << "Enter IP addresses. To finish, press Ctrl+D (Ctrl+Z on Windows)." << std::endl;
-    GetIPAddresses(ips, io);
+    GetIPAddresses(ips, *io);
 
     //сортировка в обратном порядке
     auto sorted = SortIPAddressesRevers(ips);

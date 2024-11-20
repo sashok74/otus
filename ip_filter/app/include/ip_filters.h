@@ -20,15 +20,18 @@ enum class ReadResult {
 // Класс для хранения IP-адреса
 class IPAddress {
 private:
-    std::array<uint8_t, 4> octets;
-
+    std::array<uint8_t, 4> octets = {0, 0, 0, 0};
+    static bool isValidOctet(int value) {
+        return value >= 0 && value <= 255;
+    }
 public:
     IPAddress() = default;
     IPAddress(uint8_t o1, uint8_t o2, uint8_t o3, uint8_t o4) : octets{o1, o2, o3, o4} {}
 
     friend std::ostream &operator<<(std::ostream &os, const IPAddress &ip) {
         for (int i : {0,1,2,3}) {
-            os << (i == 0 ? "" : ".") << int(ip.octets[i]);
+            if (i > 0) os << ".";
+            os << static_cast<int>(ip.octets[i]);
         }
         return os;
     }
@@ -38,13 +41,10 @@ public:
         char sep1, sep2, sep3;
         if ((is >> o1 >> sep1 >> o2 >> sep2 >> o3 >> sep3 >> o4) &&
             sep1 == '.' && sep2 == '.' && sep3 == '.' &&
-            o1 >= 0 && o1 <= 255 &&
-            o2 >= 0 && o2 <= 255 &&
-            o3 >= 0 && o3 <= 255 &&
-            o4 >= 0 && o4 <= 255) {
+            isValidOctet(o1) && isValidOctet(o2) && isValidOctet(o3) && isValidOctet(o4)) {
             ip.octets = {static_cast<uint8_t>(o1), static_cast<uint8_t>(o2), static_cast<uint8_t>(o3), static_cast<uint8_t>(o4)};
         } else {
-            is.setstate(std::ios::failbit);
+            is.setstate(std::ios::failbit); 
         }
         return is;
     }
@@ -64,17 +64,17 @@ public:
 // Стандартный поток ввода/вывода
 class StandardIOStream : public IStream {
 public:
-    ReadResult read(IPAddress &ip) override {
-        std::cin >> ip;
-        if (std::cin.good()) {
-            return ReadResult::Success;
-        } else if (std::cin.eof()) {
-            return ReadResult::EndOfStream;
-        } else {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return ReadResult::Failure;
+    ReadResult read(IPAddress& ip) override {
+        std::string line;
+        if (!std::getline(std::cin, line)) {
+            return std::cin.eof() ? ReadResult::EndOfStream : ReadResult::Failure;
         }
+
+        const auto tabPos = line.find('\t');
+        std::string ipText = (tabPos != std::string::npos) ? line.substr(0, tabPos) : line;
+
+        std::istringstream iss(ipText);
+        return (iss >> ip) ? ReadResult::Success : ReadResult::Failure;
     }
 };
 
@@ -91,26 +91,19 @@ public:
         }
     }
 
-    ReadResult read(IPAddress &ip) override {
+    ReadResult read(IPAddress& ip) override {
         std::string line;
-        if (std::getline(file, line)) {
-            std::istringstream iss(line);
-            std::string text1;
-            if (!std::getline(iss, text1, '\t'))
-                return ReadResult::Failure;
-
-            std::istringstream ip_stream(text1);
-            ip_stream >> ip;
-
-            if (ip_stream.fail())
-                return ReadResult::Failure;
-
-            return ReadResult::Success;
-        } else if (file.eof()) {
-            return ReadResult::EndOfStream;
-        } else {
-            return ReadResult::Failure;
+        
+        // Чтение строки из файла
+        if (!std::getline(file, line)) {
+            return file.eof() ? ReadResult::EndOfStream : ReadResult::Failure;
         }
+
+        const auto tabPos = line.find('\t');
+        std::string ipText = (tabPos != std::string::npos) ? line.substr(0, tabPos) : line;
+
+        std::istringstream iss(ipText);
+        return (iss >> ip) ? ReadResult::Success : ReadResult::Failure;
     }
 };
 
