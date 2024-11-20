@@ -64,12 +64,6 @@ jobs:
           cd ip_filter/build
           ctest .
 
-      # Печать версии
-      - name: Print project version
-        run: |
-          cd ip_filter/build/app
-          ./HelloApp     
-
       # Условие для создания release:
       - name: Package with CPack
         if: matrix.configuration == 'Release'
