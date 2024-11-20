@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include "ip_filters.h"
 
-// Мок-объект для IStream
+// Мок-объект для IStream, сделать чтение из файла.
 class MockIStream : public IStream {
 public:
     MOCK_METHOD(ReadResult, read, (IPAddress& ip), (override));
