@@ -3,7 +3,7 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
-project(HellowPack VERSION ${PROJECT_VESRION})
+project(ip_filter VERSION ${PROJECT_VESRION})
 enable_testing()
 
 add_subdirectory(app)
