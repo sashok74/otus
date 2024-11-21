@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - main
+    paths:  
       - 'ip_filter/**'        
 
 jobs:
