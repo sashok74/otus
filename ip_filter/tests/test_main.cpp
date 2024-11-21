@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "ip_filters.h"
+#include <queue>
 
 // Мок-объект для IStream, сделать чтение из файла.
 class MockIStream : public IStream {
@@ -13,6 +14,87 @@ void PrintIPAddresses(const std::vector<IPAddress> &ips, std::ostream &output) {
     for (const auto &ip : ips) {
         output << ip << std::endl;
     }
+}
+
+void PrintIPAddresses(const std::vector<IPAddress> &ips, std::vector<IPAddress> &result) {
+    for (const auto &ip : ips) {
+        result.push_back(ip);
+    }
+}
+
+// Утилита для загрузки IP-адресов из файлов
+std::queue<IPAddress> LoadIPsFromFile(const std::string& filePath) {
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open test file: " + filePath);
+    }
+
+    std::queue<IPAddress> ipQueue;
+    std::string line;
+
+    while (std::getline(file, line)) {
+        const auto tabPos = line.find('\t');
+        std::string ipText = (tabPos != std::string::npos) ? line.substr(0, tabPos) : line;
+
+        IPAddress ip;
+        std::istringstream iss(ipText);
+        if (iss >> ip) {
+            ipQueue.push(ip);
+        } else {
+            throw std::runtime_error("Invalid IP format in test file.");
+        }
+    }
+
+    return ipQueue;
+}
+
+// для примера с gmock
+TEST(IPUtilsTest, MockIStreamFileInputTest) {
+    auto testIPs = LoadIPsFromFile("ip_filter.tsv");
+    MockIStream mockStream;
+
+    // Настраиваем мок для возврата IP-адресов из очереди
+    EXPECT_CALL(mockStream, read(::testing::_))
+        .WillRepeatedly([&testIPs](IPAddress& ip) -> ReadResult {
+            if (testIPs.empty()) {
+                return ReadResult::EndOfStream;
+            }
+            ip = testIPs.front();
+            testIPs.pop();
+            return ReadResult::Success;
+        });
+
+    // Проверяем GetIPAddresses
+    std::vector<IPAddress> ips;
+    std::vector<IPAddress> res;
+    GetIPAddresses(ips, mockStream);
+
+    // Проверяем, что все IP-адреса загружены
+    EXPECT_FALSE(ips.empty());
+
+    // Проверяем сортировку
+    auto sorted = SortIPAddressesRevers(ips);
+    PrintIPAddresses(sorted, res);
+
+    auto filtered = FilterIPAddresses(sorted, 1);
+    PrintIPAddresses(filtered, res);
+
+    filtered = FilterIPAddresses(sorted, 46, 70);
+    PrintIPAddresses(filtered, res);
+
+    filtered = FilterIPAddressesAnyOctet(sorted, 46);
+    PrintIPAddresses(filtered, res);
+
+    // Загружаем ожидаемые результаты
+    auto expectedIPs = LoadIPsFromFile("ip_filter_result.tsv");
+    std::vector<IPAddress> expectedIPsVec;
+    while (!expectedIPs.empty()) {
+        expectedIPsVec.push_back(expectedIPs.front());
+        expectedIPs.pop();
+    }
+    PrintIPAddresses(expectedIPsVec);
+    // Сравниваем с ожидаемыми результатами
+    EXPECT_EQ(res, expectedIPsVec);
 }
 
 TEST(FilterIPAddressesTest, FilterByOctet) {
@@ -32,7 +114,6 @@ TEST(FilterIPAddressesTest, FilterByOctet) {
 
 TEST(IntegrationalTest, FullDataTest) {
     //сравним итоговый поток с тестовым
-   // можно загрузить результат в вектор и сравнить 
     std::ifstream inputFile("ip_filter.tsv");
     std::ifstream expectedOutputFile("ip_filter_result.tsv");
     std::vector<IPAddress> ips;

@@ -14,6 +14,10 @@ set_target_properties(ip_filter tests PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
+# Include Conan's CMake file
+# include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+# conan_basic_setup()
+
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
    message(FATAL_ERROR "Conan toolchain file not found. Make sure to run `conan install` first.")
 endif()
