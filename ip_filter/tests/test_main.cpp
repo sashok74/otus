@@ -92,7 +92,7 @@ TEST(IPUtilsTest, MockIStreamFileInputTest) {
         expectedIPsVec.push_back(expectedIPs.front());
         expectedIPs.pop();
     }
-    PrintIPAddresses(expectedIPsVec);
+
     // Сравниваем с ожидаемыми результатами
     EXPECT_EQ(res, expectedIPsVec);
 }

@@ -7,10 +7,10 @@ int main(int argc, char *argv[]) {
     if (argc > 1) {
         io = new FileStream (argv[1]);
     } else {
+        //std::cout << "Enter IP addresses. To finish, press Ctrl+D (Ctrl+Z on Windows)." << std::endl;
         io = new StandardIOStream ();
     }
 
-    //std::cout << "Enter IP addresses. To finish, press Ctrl+D (Ctrl+Z on Windows)." << std::endl;
     GetIPAddresses(ips, *io);
 
     //сортировка в обратном порядке
