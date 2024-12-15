@@ -37,17 +37,17 @@ jobs:
       - name: Install Conan and project dependencies
         run: |
           conan profile detect
-          conan install . --output-folder=print_ip/build --build=missing -s build_type=${{ matrix.configuration }}
+          conan install . --output-folder=sfinae/build --build=missing -s build_type=${{ matrix.configuration }}
 
       # Проверка наличия conan_toolchain.cmake
       - name: Check if toolchain file exists
         run: |
-          ls print_ip/build
+          ls sfinae/build
 
       # Конфигурация CMake с использованием Conan toolchain file
       - name: Configure CMake
         run: |
-          cd print_ip/build
+          cd sfinae/build
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
                 -DPATCH_VERSION=${{ github.run_number }} \
                 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
@@ -56,20 +56,20 @@ jobs:
       # Сборка проекта
       - name: Build project
         run: |
-          cd print_ip/build
+          cd sfinae/build
           cmake --build .
       
       # Запуск тестов
       - name: Run tests
         run: | 
-          cd print_ip/build
+          cd sfinae/build
           ctest .
 
       # Условие для создания release:
       - name: Package with CPack
         if: matrix.configuration == 'Release'
         run: |
-          cd print_ip/build
+          cd sfinae/build
           cpack -G DEB
           echo "Packages created for ${{ matrix.build_type }} ${{ matrix.configuration }}"
 
@@ -102,6 +102,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./print_ip/build/print_ip-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
+          asset_path: ./sfinae/build/print_ip-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
           asset_name: print_ip-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
           asset_content_type: application/vnd.debian.binary-package   
