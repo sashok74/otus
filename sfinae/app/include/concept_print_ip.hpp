@@ -95,7 +95,7 @@ template <HomogeneousTuple T>
         std::apply([](const auto &...args)
                    {
             size_t n = 0;
-            ((std::cout << (n++ ? ".." : "") << args), ...);
+            ((std::cout << (n++ ? "." : "") << args), ...);
             std::cout << std::endl; }, tuple);
     }
 };
