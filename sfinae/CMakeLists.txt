@@ -14,6 +14,15 @@ set_target_properties(print_ip tests PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
+find_package(Doxygen REQUIRED)
+
+set(DOXYGEN_CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+add_custom_target(docs
+    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG_FILE}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Generating documentation for sfinae"
+    VERBATIM)
+
 # Include Conan's CMake file
 # include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 # conan_basic_setup()

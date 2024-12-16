@@ -1,0 +1,6 @@
+     PROJECT_NAME           = "Sfinae"
+     OUTPUT_DIRECTORY       = ./docs
+     INPUT                  = ./app ./tests
+     RECURSIVE              = YES
+     GENERATE_HTML          = YES
+     GENERATE_LATEX         = NO

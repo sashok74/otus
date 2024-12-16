@@ -1,6 +1,9 @@
 build/
 .vscode/
 
+# Ignore generated documentation
+**/docs/
+
 # Prerequisites
 *.d
 

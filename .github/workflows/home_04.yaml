@@ -29,7 +29,7 @@ jobs:
       - name: Set up environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake python3-pip
+          sudo apt-get install -y build-essential cmake python3-pip doxygen graphviz
           pip3 install conan>=2.0
 
 
@@ -105,3 +105,16 @@ jobs:
           asset_path: ./sfinae/build/print_ip-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
           asset_name: print_ip-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
           asset_content_type: application/vnd.debian.binary-package   
+
+      # Генерация документации
+      - name: Generate Documentation
+        run: |
+          cd sfinae
+          doxygen Doxyfile
+      
+      # Артефакты документации
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v2
+        with:
+          name: documentation-sfinae
+          path: sfinae/docs          
