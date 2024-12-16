@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cctype> 
 #include <algorithm>
+
 /**
  * @class IpPrinter
  * @brief Класс для вывода IP-адресов, представленных в различных форматах.
@@ -55,6 +56,7 @@ public:
         }
         else if constexpr (std::is_same_v<T, std::string>)
         {
+            // Если T - строка
             std::istringstream stream(ip);
             std::string part;
             bool first = true;
@@ -136,9 +138,12 @@ private:
     {
     };
 
-    /// @brief Шаблонная структура для проверки, являются ли все элементы однотипными.
-    /// @tparam First Первый тип.
-    /// @tparam Rest Оставшиеся типы.
+    /**
+     * @brief Шаблонная структура для проверки, являются ли все элементы однотипными.
+     *
+     * @tparam First Первый тип.
+     * @tparam Rest Оставшиеся типы.
+     */
     template <typename First, typename... Rest>
     struct all_same_type
     {
