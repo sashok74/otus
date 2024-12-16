@@ -93,7 +93,7 @@ public:
         }
         else if constexpr (is_tuple<T>::value && all_same_type<T>::value)
         {
-            // Если T - std::tuple с одинаковыми типами
+            /// Если T - std::tuple с одинаковыми типами
             std::apply([](const auto &...args)
                        {
                 size_t n = 0;

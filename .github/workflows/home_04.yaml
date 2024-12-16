@@ -111,11 +111,20 @@ jobs:
         run: |
           cd sfinae
           doxygen Doxyfile
+
+      # Загрузка документации как артефакта
+      - name: Upload Documentation Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-sfinae
+          path: sfinae/docs
       
+      # Деплой документации на GitHub Pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ inputs.branch }}
-          folder: ${{ inputs.folder }}
+          branch: gh-pages          # Укажите ветку для Pages (обычно gh-pages)
+          folder: sfinae/docs       # Укажите папку, в которой сгенерирована документация
+
             
