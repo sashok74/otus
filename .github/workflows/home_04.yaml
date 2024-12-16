@@ -112,9 +112,10 @@ jobs:
           cd sfinae
           doxygen Doxyfile
       
-      # Артефакты документации
-      - name: Upload Documentation
-        uses: actions/download-artifact@v4
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          name: documentation-sfinae
-          path: sfinae/docs          
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ inputs.branch }}
+          folder: ${{ inputs.folder }}
+            
