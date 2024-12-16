@@ -117,7 +117,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: documentation-sfinae
-          path: sfinae/docs
+          path: ./sfinae/docs
       
       # Деплой документации на GitHub Pages
       - name: Deploy to GitHub Pages
@@ -125,6 +125,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages          # Укажите ветку для Pages (обычно gh-pages)
-          folder: sfinae/docs       # Укажите папку, в которой сгенерирована документация
+          folder: ./sfinae/docs       # Укажите папку, в которой сгенерирована документация
 
             
