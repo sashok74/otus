@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <type_traits>
 #include <string>
@@ -7,7 +8,7 @@
 #include <tuple>
 #include <utility>
 #include <sstream>
-#include <cctype> 
+#include <cctype>
 #include <algorithm>
 
 /**
@@ -67,8 +68,10 @@ public:
                 {
                     std::cout << ".";
                 }
-                // Убираем начальные и завершающие пробелы для красоты
+                // Убираем начальные и завершающие пробелы
                 part.erase(part.begin(), std::find_if(part.begin(), part.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+                part.erase(std::find_if(part.rbegin(), part.rend(), [](unsigned char ch) { return !std::isspace(ch); }).base(), part.end());
+
                 std::cout << part;
                 first = false;
             }

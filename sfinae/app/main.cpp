@@ -13,7 +13,7 @@ int main()
     print_ip( std::list<short>{400, 300, 200, 100} ); // 400.300.200.100  
     print_ip( std::make_tuple(123, 456, 789, 0) ); // 123.456.789.0
 
-    std::cout << "\nif constexpr \n\n";
+    std::cout << "\nвариант2: if constexpr \n\n";
 
     IpPrinter pip;
     pip.print(std::string("helo, world"));
@@ -25,7 +25,7 @@ int main()
     pip.print( std::list<short>{400, 300, 200, 100} ); // 400.300.200.100  
     pip.print( std::make_tuple(123, 456, 789, 0) ); // 123.456.789.0
 
-    std::cout << "\nif concept \n\n";
+    std::cout << "\nвариат3: concept \n\n";
 
     IpPrinterCpt pipc;
     pipc.print(std::string("helo, world"));
