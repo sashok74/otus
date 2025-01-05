@@ -11,48 +11,59 @@ public:
 class Editor
 {
 private:
-    Document *m_document;  
+    std::unique_ptr<Document> m_document;
+
+public:
+    // Объявляем вложенные классы как public
     class EditorStorage
     {
     public:
-        virtual void load(Document *) {};
-        virtual void save(Document *) {};
+        virtual void load(Document *) = 0;
+        virtual void save(Document *) = 0;
+        virtual ~EditorStorage() = default;
     };
+
     class EditorDisplay
     {
     public:
-        virtual void show(Document *) {};
+        virtual void show(Document *) = 0;
+        virtual ~EditorDisplay() = default;
     };
-private:    
+
+private:
     std::shared_ptr<EditorStorage> m_storage;
     std::shared_ptr<EditorDisplay> m_display;
 
 public:
-    Editor(EditorStorage *storage, EditorDisplay *display)
-        : m_storage(storage), m_display(display)
+    Editor(std::shared_ptr<EditorStorage> storage, std::shared_ptr<EditorDisplay> display)
+        : m_storage(std::move(storage)), m_display(std::move(display)) {}
+
+    void createDocument(const std::string &name)
     {
-    };
-    ~Editor() = default;
-    void createDocument(std::string name)
-    {
-        m_document = new Document();
+        m_document = std::make_unique<Document>();
         m_document->name = name;
     }
 
-    void load(Document *doc)
+    void load()
     {
-        m_storage->load(doc);
+        if (m_document)
+            m_storage->load(m_document.get());
     }
-    void save(Document *doc)
+
+    void save()
     {
-        m_storage->save(doc);
+        if (m_document)
+            m_storage->save(m_document.get());
     }
-    void show(Document *doc)
+
+    void show()
     {
-        m_display->show(doc);
+        if (m_document)
+            m_display->show(m_document.get());
     }
-    Document * getDocument()
+
+    Document *getDocument() const
     {
-        return m_document;
+        return m_document.get();
     }
 };
