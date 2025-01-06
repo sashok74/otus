@@ -34,4 +34,5 @@ public:
             std::cout << "Document save name: " << doc->name << std::endl;
         }
     }
+};
     
