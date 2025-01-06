@@ -1,5 +1,5 @@
 <map id="Line" name="Line">
-<area shape="rect" id="Node000001" title=" " alt="" coords="46,79,95,104"/>
-<area shape="rect" id="Node000002" href="$classGraphicPrimitive.html" title=" " alt="" coords="5,5,136,31"/>
+<area shape="rect" id="Node000001" title="Класс, представляющий линию." alt="" coords="46,79,95,104"/>
+<area shape="rect" id="Node000002" href="$classGraphicPrimitive.html" title="Базовый класс для графических примитивов." alt="" coords="5,5,136,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,44,73,79,68,79,68,44"/>
 </map>
