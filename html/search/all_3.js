@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['graphicprimitive_0',['GraphicPrimitive',['../classGraphicPrimitive.html',1,'']]]
+  ['editor_0',['Editor',['../classEditor.html',1,'']]]
 ];

@@ -75,13 +75,18 @@ $(function() {
   <div class="headertitle"><div class="title">MainStorage Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Пример реализации хранилища для редактора.  
+ <a href="classMainStorage.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="IStorage_8hpp_source.html">IStorage.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for MainStorage:</div>
 <div class="dyncontent">
 <div class="center"><img src="classMainStorage__inherit__graph.png" border="0" usemap="#aMainStorage_inherit__map" alt="Inheritance graph"/></div>
 <map name="aMainStorage_inherit__map" id="aMainStorage_inherit__map">
-<area shape="rect" title=" " alt="" coords="15,79,119,104"/>
-<area shape="rect" href="classEditor_1_1IStorage.html" title=" " alt="" coords="5,5,128,31"/>
+<area shape="rect" title="Пример реализации хранилища для редактора." alt="" coords="15,79,119,104"/>
+<area shape="rect" href="classEditor_1_1IStorage.html" title="Интерфейс для хранения документов." alt="" coords="5,5,128,31"/>
 <area shape="poly" title=" " alt="" coords="69,44,69,79,64,79,64,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -90,8 +95,8 @@ Collaboration diagram for MainStorage:</div>
 <div class="dyncontent">
 <div class="center"><img src="classMainStorage__coll__graph.png" border="0" usemap="#aMainStorage_coll__map" alt="Collaboration graph"/></div>
 <map name="aMainStorage_coll__map" id="aMainStorage_coll__map">
-<area shape="rect" title=" " alt="" coords="15,79,119,104"/>
-<area shape="rect" href="classEditor_1_1IStorage.html" title=" " alt="" coords="5,5,128,31"/>
+<area shape="rect" title="Пример реализации хранилища для редактора." alt="" coords="15,79,119,104"/>
+<area shape="rect" href="classEditor_1_1IStorage.html" title="Интерфейс для хранения документов." alt="" coords="5,5,128,31"/>
 <area shape="poly" title=" " alt="" coords="69,44,69,79,64,79,64,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -99,11 +104,15 @@ Collaboration diagram for MainStorage:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af17b38ca4e0e2b3405c4f2b1ca96d916" id="r_af17b38ca4e0e2b3405c4f2b1ca96d916"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainStorage.html#af17b38ca4e0e2b3405c4f2b1ca96d916">load</a> (<a class="el" href="classDocument.html">Document</a> *doc) override</td></tr>
+<tr class="memdesc:af17b38ca4e0e2b3405c4f2b1ca96d916"><td class="mdescLeft">&#160;</td><td class="mdescRight">загружает документ.  <br /></td></tr>
 <tr class="separator:af17b38ca4e0e2b3405c4f2b1ca96d916"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc436988084fd3044747cec80e3c67a7" id="r_abc436988084fd3044747cec80e3c67a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMainStorage.html#abc436988084fd3044747cec80e3c67a7">save</a> (<a class="el" href="classDocument.html">Document</a> *doc) override</td></tr>
+<tr class="memdesc:abc436988084fd3044747cec80e3c67a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">сохраняет документ. здесь возможно реализовать сохранение документа в файл или базу данных.  <br /></td></tr>
 <tr class="separator:abc436988084fd3044747cec80e3c67a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Пример реализации хранилища для редактора. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af17b38ca4e0e2b3405c4f2b1ca96d916" name="af17b38ca4e0e2b3405c4f2b1ca96d916"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af17b38ca4e0e2b3405c4f2b1ca96d916">&#9670;&#160;</a></span>load()</h2>
 
@@ -127,6 +136,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>загружает документ. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">doc</td><td>указатель на документ, который нужно загрузить. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classEditor_1_1IStorage.html">Editor::IStorage</a>.</p>
 
@@ -155,6 +172,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>сохраняет документ. здесь возможно реализовать сохранение документа в файл или базу данных. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">doc</td><td>указатель на документ, который нужно сохранить. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="classEditor_1_1IStorage.html">Editor::IStorage</a>.</p>
 

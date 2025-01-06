@@ -76,14 +76,19 @@ $(function() {
   <div class="headertitle"><div class="title">Document Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Класс, представляющий документ, содержащий графические примитивы.  
+ <a href="classDocument.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2a012ab977f666aaf6ce75751f611cbb" id="r_a2a012ab977f666aaf6ce75751f611cbb"><td class="memItemLeft" align="right" valign="top"><a id="a2a012ab977f666aaf6ce75751f611cbb" name="a2a012ab977f666aaf6ce75751f611cbb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addPrimitive</b> (std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt; primitive)</td></tr>
+<tr class="memitem:a2a012ab977f666aaf6ce75751f611cbb" id="r_a2a012ab977f666aaf6ce75751f611cbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDocument.html#a2a012ab977f666aaf6ce75751f611cbb">addPrimitive</a> (std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt; primitive)</td></tr>
+<tr class="memdesc:a2a012ab977f666aaf6ce75751f611cbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Добавляет графический примитив в документ.  <br /></td></tr>
 <tr class="separator:a2a012ab977f666aaf6ce75751f611cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae205382ebae6cf263b8f40247e3a59b" id="r_aae205382ebae6cf263b8f40247e3a59b"><td class="memItemLeft" align="right" valign="top"><a id="aae205382ebae6cf263b8f40247e3a59b" name="aae205382ebae6cf263b8f40247e3a59b"></a>
-std::vector&lt; std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getPrimitives</b> ()</td></tr>
+<tr class="memitem:aae205382ebae6cf263b8f40247e3a59b" id="r_aae205382ebae6cf263b8f40247e3a59b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDocument.html#aae205382ebae6cf263b8f40247e3a59b">getPrimitives</a> ()</td></tr>
+<tr class="memdesc:aae205382ebae6cf263b8f40247e3a59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает список графических примитивов в документе.  <br /></td></tr>
 <tr class="separator:aae205382ebae6cf263b8f40247e3a59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -92,6 +97,72 @@ Public Attributes</h2></td></tr>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
 <tr class="separator:a4945c350890d26e100bfcaae8400e26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс, представляющий документ, содержащий графические примитивы. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2a012ab977f666aaf6ce75751f611cbb" name="a2a012ab977f666aaf6ce75751f611cbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a012ab977f666aaf6ce75751f611cbb">&#9670;&#160;</a></span>addPrimitive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Document::addPrimitive </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt;&#160;</td>
+          <td class="paramname"><em>primitive</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Добавляет графический примитив в документ. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">primitive</td><td>Умный указатель на графический примитив, который нужно добавить. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aae205382ebae6cf263b8f40247e3a59b" name="aae205382ebae6cf263b8f40247e3a59b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae205382ebae6cf263b8f40247e3a59b">&#9670;&#160;</a></span>getPrimitives()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a> &gt; &gt; Document::getPrimitives </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Получает список графических примитивов в документе. </p>
+<dl class="section return"><dt>Returns</dt><dd>Вектор умных указателей на графические примитивы. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Возвращаемый вектор содержащий умные указатели на объекты <a class="el" href="classGraphicPrimitive.html">GraphicPrimitive</a>. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>app/include/<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a></li>
 </ul>

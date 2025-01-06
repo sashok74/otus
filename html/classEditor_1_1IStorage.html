@@ -79,26 +79,89 @@ $(function() {
   <div class="headertitle"><div class="title">Editor::IStorage Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Интерфейс для хранения документов.  
+ <a href="classEditor_1_1IStorage.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Editor::IStorage:</div>
 <div class="dyncontent">
 <div class="center"><img src="classEditor_1_1IStorage__inherit__graph.png" border="0" usemap="#aEditor_1_1IStorage_inherit__map" alt="Inheritance graph"/></div>
 <map name="aEditor_1_1IStorage_inherit__map" id="aEditor_1_1IStorage_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,5,128,31"/>
-<area shape="rect" href="classMainStorage.html" title=" " alt="" coords="15,79,119,104"/>
+<area shape="rect" title="Интерфейс для хранения документов." alt="" coords="5,5,128,31"/>
+<area shape="rect" href="classMainStorage.html" title="Пример реализации хранилища для редактора." alt="" coords="15,79,119,104"/>
 <area shape="poly" title=" " alt="" coords="69,44,69,79,64,79,64,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa1fdaba8647f3c65a2f048f514777c9b" id="r_aa1fdaba8647f3c65a2f048f514777c9b"><td class="memItemLeft" align="right" valign="top"><a id="aa1fdaba8647f3c65a2f048f514777c9b" name="aa1fdaba8647f3c65a2f048f514777c9b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (<a class="el" href="classDocument.html">Document</a> *)=0</td></tr>
+<tr class="memitem:aa1fdaba8647f3c65a2f048f514777c9b" id="r_aa1fdaba8647f3c65a2f048f514777c9b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor_1_1IStorage.html#aa1fdaba8647f3c65a2f048f514777c9b">load</a> (<a class="el" href="classDocument.html">Document</a> *)=0</td></tr>
 <tr class="separator:aa1fdaba8647f3c65a2f048f514777c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab19dbbd9144abe16a82779fe9ad925fc" id="r_ab19dbbd9144abe16a82779fe9ad925fc"><td class="memItemLeft" align="right" valign="top"><a id="ab19dbbd9144abe16a82779fe9ad925fc" name="ab19dbbd9144abe16a82779fe9ad925fc"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (<a class="el" href="classDocument.html">Document</a> *)=0</td></tr>
+<tr class="memitem:ab19dbbd9144abe16a82779fe9ad925fc" id="r_ab19dbbd9144abe16a82779fe9ad925fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor_1_1IStorage.html#ab19dbbd9144abe16a82779fe9ad925fc">save</a> (<a class="el" href="classDocument.html">Document</a> *)=0</td></tr>
 <tr class="separator:ab19dbbd9144abe16a82779fe9ad925fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Интерфейс для хранения документов. </p>
+<dl class="section note"><dt>Note</dt><dd>Интерфейс для хранения документов, который должен быть реализован конкретным классом. </dd></dl>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa1fdaba8647f3c65a2f048f514777c9b" name="aa1fdaba8647f3c65a2f048f514777c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1fdaba8647f3c65a2f048f514777c9b">&#9670;&#160;</a></span>load()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Editor::IStorage::load </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classDocument.html">Document</a> *&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classMainStorage.html#af17b38ca4e0e2b3405c4f2b1ca96d916">MainStorage</a>.</p>
+
+</div>
+</div>
+<a id="ab19dbbd9144abe16a82779fe9ad925fc" name="ab19dbbd9144abe16a82779fe9ad925fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab19dbbd9144abe16a82779fe9ad925fc">&#9670;&#160;</a></span>save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Editor::IStorage::save </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classDocument.html">Document</a> *&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classMainStorage.html#abc436988084fd3044747cec80e3c67a7">MainStorage</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>app/include/<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a></li>
 </ul>

@@ -76,12 +76,19 @@ $(function() {
   <div class="headertitle"><div class="title">Editor Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Класс, представляющий редактор, который управляет документом.  
+ <a href="classEditor.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor_1_1IDisplay.html">IDisplay</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Интерфейс для отображения документов.  <a href="classEditor_1_1IDisplay.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor_1_1IStorage.html">IStorage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Интерфейс для хранения документов.  <a href="classEditor_1_1IStorage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -89,22 +96,171 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a71dfb20e670e93db0aff2373956bf961" id="r_a71dfb20e670e93db0aff2373956bf961"><td class="memItemLeft" align="right" valign="top"><a id="a71dfb20e670e93db0aff2373956bf961" name="a71dfb20e670e93db0aff2373956bf961"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Editor</b> (std::shared_ptr&lt; <a class="el" href="classEditor_1_1IStorage.html">IStorage</a> &gt; storage, std::shared_ptr&lt; <a class="el" href="classEditor_1_1IDisplay.html">IDisplay</a> &gt; display)</td></tr>
 <tr class="separator:a71dfb20e670e93db0aff2373956bf961"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addfb236e65a26305d6621ba41f4f8490" id="r_addfb236e65a26305d6621ba41f4f8490"><td class="memItemLeft" align="right" valign="top"><a id="addfb236e65a26305d6621ba41f4f8490" name="addfb236e65a26305d6621ba41f4f8490"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>createDocument</b> (const std::string &amp;name)</td></tr>
+<tr class="memitem:addfb236e65a26305d6621ba41f4f8490" id="r_addfb236e65a26305d6621ba41f4f8490"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor.html#addfb236e65a26305d6621ba41f4f8490">createDocument</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:addfb236e65a26305d6621ba41f4f8490"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создает новый документ с заданным именем.  <br /></td></tr>
 <tr class="separator:addfb236e65a26305d6621ba41f4f8490"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f7748c25f96563122eaf89b3a7f513" id="r_a51f7748c25f96563122eaf89b3a7f513"><td class="memItemLeft" align="right" valign="top"><a id="a51f7748c25f96563122eaf89b3a7f513" name="a51f7748c25f96563122eaf89b3a7f513"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> ()</td></tr>
+<tr class="memitem:a51f7748c25f96563122eaf89b3a7f513" id="r_a51f7748c25f96563122eaf89b3a7f513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor.html#a51f7748c25f96563122eaf89b3a7f513">load</a> ()</td></tr>
+<tr class="memdesc:a51f7748c25f96563122eaf89b3a7f513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Загружает документ из хранилища.  <br /></td></tr>
 <tr class="separator:a51f7748c25f96563122eaf89b3a7f513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ac63aae7650bd9cbbb038816d791616" id="r_a8ac63aae7650bd9cbbb038816d791616"><td class="memItemLeft" align="right" valign="top"><a id="a8ac63aae7650bd9cbbb038816d791616" name="a8ac63aae7650bd9cbbb038816d791616"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> ()</td></tr>
+<tr class="memitem:a8ac63aae7650bd9cbbb038816d791616" id="r_a8ac63aae7650bd9cbbb038816d791616"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor.html#a8ac63aae7650bd9cbbb038816d791616">save</a> ()</td></tr>
+<tr class="memdesc:a8ac63aae7650bd9cbbb038816d791616"><td class="mdescLeft">&#160;</td><td class="mdescRight">Сохраняет документ в хранилище.  <br /></td></tr>
 <tr class="separator:a8ac63aae7650bd9cbbb038816d791616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48ce525c65c3ae7cb3958a9c940e1ef7" id="r_a48ce525c65c3ae7cb3958a9c940e1ef7"><td class="memItemLeft" align="right" valign="top"><a id="a48ce525c65c3ae7cb3958a9c940e1ef7" name="a48ce525c65c3ae7cb3958a9c940e1ef7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>show</b> ()</td></tr>
+<tr class="memitem:a48ce525c65c3ae7cb3958a9c940e1ef7" id="r_a48ce525c65c3ae7cb3958a9c940e1ef7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor.html#a48ce525c65c3ae7cb3958a9c940e1ef7">show</a> ()</td></tr>
+<tr class="memdesc:a48ce525c65c3ae7cb3958a9c940e1ef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отображает документ.  <br /></td></tr>
 <tr class="separator:a48ce525c65c3ae7cb3958a9c940e1ef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94903bbabfdb793b3efdd8d488995701" id="r_a94903bbabfdb793b3efdd8d488995701"><td class="memItemLeft" align="right" valign="top"><a id="a94903bbabfdb793b3efdd8d488995701" name="a94903bbabfdb793b3efdd8d488995701"></a>
-<a class="el" href="classDocument.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getDocument</b> () const</td></tr>
-<tr class="separator:a94903bbabfdb793b3efdd8d488995701"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aebfa4dcd2d178abc116f3eadca8dd0" id="r_a7aebfa4dcd2d178abc116f3eadca8dd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDocument.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditor.html#a7aebfa4dcd2d178abc116f3eadca8dd0">getDocument</a> ()</td></tr>
+<tr class="memdesc:a7aebfa4dcd2d178abc116f3eadca8dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает указатель на документ.  <br /></td></tr>
+<tr class="separator:a7aebfa4dcd2d178abc116f3eadca8dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс, представляющий редактор, который управляет документом. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="addfb236e65a26305d6621ba41f4f8490" name="addfb236e65a26305d6621ba41f4f8490"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addfb236e65a26305d6621ba41f4f8490">&#9670;&#160;</a></span>createDocument()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Editor::createDocument </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Создает новый документ с заданным именем. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Имя документа. note Создает новый документ с заданным именем. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7aebfa4dcd2d178abc116f3eadca8dd0" name="a7aebfa4dcd2d178abc116f3eadca8dd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aebfa4dcd2d178abc116f3eadca8dd0">&#9670;&#160;</a></span>getDocument()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classDocument.html">Document</a> * Editor::getDocument </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Возвращает указатель на документ. </p>
+<dl class="section return"><dt>Returns</dt><dd>Указатель на объект <a class="el" href="classDocument.html" title="Класс, представляющий документ, содержащий графические примитивы.">Document</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a51f7748c25f96563122eaf89b3a7f513" name="a51f7748c25f96563122eaf89b3a7f513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51f7748c25f96563122eaf89b3a7f513">&#9670;&#160;</a></span>load()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Editor::load </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Загружает документ из хранилища. </p>
+<dl class="section note"><dt>Note</dt><dd>Загружает документ из хранилища, используя указатель на объект <a class="el" href="classDocument.html" title="Класс, представляющий документ, содержащий графические примитивы.">Document</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a8ac63aae7650bd9cbbb038816d791616" name="a8ac63aae7650bd9cbbb038816d791616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ac63aae7650bd9cbbb038816d791616">&#9670;&#160;</a></span>save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Editor::save </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Сохраняет документ в хранилище. </p>
+<dl class="section note"><dt>Note</dt><dd>Сохраняет документ в хранилище, используя указатель на объект <a class="el" href="classDocument.html" title="Класс, представляющий документ, содержащий графические примитивы.">Document</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a48ce525c65c3ae7cb3958a9c940e1ef7" name="a48ce525c65c3ae7cb3958a9c940e1ef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48ce525c65c3ae7cb3958a9c940e1ef7">&#9670;&#160;</a></span>show()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Editor::show </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Отображает документ. </p>
+<dl class="section note"><dt>Note</dt><dd>Отображает документ, используя указатель на объект <a class="el" href="classDocument.html" title="Класс, представляющий документ, содержащий графические примитивы.">Document</a>. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>app/include/<a class="el" href="Editor_8hpp_source.html">Editor.hpp</a></li>
 </ul>
