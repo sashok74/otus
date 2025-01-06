@@ -1,7 +1,11 @@
 #pragma once
 #include <string>
 #include <memory>
-
+/**
+ * @class GraphicPrimitive
+ * @brief Базовый класс для графических примитивов.
+ * @note Базовый класс для графических примитивов, содержащий имя примитива.
+ */
 class GraphicPrimitive
 {
 public:
@@ -9,6 +13,11 @@ public:
     virtual ~GraphicPrimitive() = default;
 };
 
+/**
+ * @class Circle
+ * @brief Класс, представляющий круг.
+ * @note Класс, представляющий круг, наследуется от GraphicPrimitive.
+ */
 class Circle : public GraphicPrimitive
 {
 private:
@@ -18,6 +27,11 @@ public:
     Circle(double radius) : m_radius(radius) {m_name = "Circle";}
 };
 
+/**
+ * @class Line
+ * @brief Класс, представляющий линию.
+ * @note Класс, представляющий линию, наследуется от GraphicPrimitive.
+ */
 class Line : public GraphicPrimitive
 {
 private:
