@@ -25,7 +25,7 @@ public:
     {
         if (doc)
         {
-             for (const auto &primitive : doc->getPrimitives())
+             for (const auto &[_,primitive] : doc->getPrimitives())
             {
                 std::cout << "display " <<  primitive->m_name << "\n";
             }

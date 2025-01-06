@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include <vector>
+#include <map>
 #include "GraphicPrimitive.hpp"
 
 /**
@@ -11,7 +11,7 @@
 class Document
 {
 private:
-    std::vector<std::shared_ptr<GraphicPrimitive>> m_primitives;
+    std::map<int, std::shared_ptr<GraphicPrimitive>> m_primitives;
 
 public:
     std::string name;
@@ -21,14 +21,20 @@ public:
      */
     void addPrimitive(std::shared_ptr<GraphicPrimitive> primitive)
     {
-        m_primitives.push_back(std::move(primitive));
+        m_primitives.insert(std::make_pair(m_primitives.size(), primitive));
     }
+    
+    void removePrimitive(int index)
+    {
+        m_primitives.erase(index);
+    }
+
     /**
      * @brief Получает список графических примитивов в документе.
      * @return Вектор умных указателей на графические примитивы.
      * @note Возвращаемый вектор содержащий умные указатели на объекты GraphicPrimitive.
      */
-    std::vector<std::shared_ptr<GraphicPrimitive>> getPrimitives() { return m_primitives; }
+    std::map<int, std::shared_ptr<GraphicPrimitive>> getPrimitives() { return m_primitives; }
 };
 
 /**

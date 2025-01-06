@@ -17,6 +17,8 @@ int main()
     doc->addPrimitive(circle);
     doc->addPrimitive(line);
     editor.show();
+    doc->removePrimitive(0);
+    editor.show();
     editor.save();
     
     return 0;
