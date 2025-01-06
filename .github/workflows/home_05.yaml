@@ -125,6 +125,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages          # Укажите ветку для Pages (обычно gh-pages)
-          folder: ./editor/docs       # Укажите папку, в которой сгенерирована документация
+          folder: ./editor/docs/html       # Укажите папку, в которой сгенерирована документация
 
             
