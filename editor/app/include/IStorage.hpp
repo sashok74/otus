@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include "editor.hpp"
+#include "Editor.hpp"
 
-class MainStorage : public Editor::EditorStorage
+class MainStorage : public Editor::IStorage
 {
 public:
     void load(Document *doc) override

@@ -1,15 +1,18 @@
 #pragma once
 #include <iostream>
-#include "editor.hpp"
+#include "Editor.hpp"
 
-class MainDisplay : public Editor::EditorDisplay
+class MainDisplay : public Editor::IDisplay
 {
 public:
     void show(Document *doc) override
     {
         if (doc)
         {
-            std::cout << "Document show name: " << doc->name << std::endl;
+             for (const auto &primitive : doc->getPrimitives())
+            {
+                std::cout << "display " <<  primitive->m_name << "\n";
+            }
         }
     }
 };

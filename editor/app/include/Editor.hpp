@@ -1,11 +1,21 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <vector>
+#include "GraphicPrimitive.hpp"
 
 class Document
 {
+private:
+    std::vector<std::shared_ptr<GraphicPrimitive>> m_primitives;
+
 public:
     std::string name;
+    void addPrimitive(std::shared_ptr<GraphicPrimitive> primitive)
+    {
+        m_primitives.push_back(std::move(primitive));
+    }
+    std::vector<std::shared_ptr<GraphicPrimitive>> getPrimitives() {return m_primitives;}
 };
 
 class Editor
@@ -15,27 +25,27 @@ private:
 
 public:
     // Объявляем вложенные классы как public
-    class EditorStorage
+    class IStorage
     {
     public:
         virtual void load(Document *) = 0;
         virtual void save(Document *) = 0;
-        virtual ~EditorStorage() = default;
+        virtual ~IStorage() = default;
     };
 
-    class EditorDisplay
+    class IDisplay
     {
     public:
         virtual void show(Document *) = 0;
-        virtual ~EditorDisplay() = default;
+        virtual ~IDisplay() = default;
     };
 
 private:
-    std::shared_ptr<EditorStorage> m_storage;
-    std::shared_ptr<EditorDisplay> m_display;
+    std::shared_ptr<IStorage> m_storage;
+    std::shared_ptr<IDisplay> m_display;
 
 public:
-    Editor(std::shared_ptr<EditorStorage> storage, std::shared_ptr<EditorDisplay> display)
+    Editor(std::shared_ptr<IStorage> storage, std::shared_ptr<IDisplay> display)
         : m_storage(std::move(storage)), m_display(std::move(display)) {}
 
     void createDocument(const std::string &name)
