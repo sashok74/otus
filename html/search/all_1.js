@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['coutredirector_2',['CoutRedirector',['../classCoutRedirector.html',1,'']]]
+  ['document_0',['Document',['../classDocument.html',1,'']]]
 ];

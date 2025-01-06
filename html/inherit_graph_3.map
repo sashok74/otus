@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classIpPrinterCpt.html" title="Класс для вывода IP&#45;адресов в разных форматах." alt="" coords="5,5,104,32"/>
+<area shape="rect" id="Node000000" href="$classEditor_1_1IStorage.html" title=" " alt="" coords="5,5,128,31"/>
+<area shape="rect" id="Node000001" href="$classMainStorage.html" title=" " alt="" coords="176,5,280,31"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="142,15,176,15,176,21,142,21"/>
 </map>
