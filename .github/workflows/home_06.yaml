@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Release] #[Release, Debug]
-        build_type: [SHARED] #[SHARED, STATIC]
+        build_type: [STATIC] #[SHARED, STATIC]
         
     steps:
       # Проверка репозитория
