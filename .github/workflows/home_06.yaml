@@ -1,0 +1,130 @@
+name: Build matrix with dynamic and static linking
+
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - 'matrix/**'  
+  pull_request:
+    branches:
+      - main
+    paths:  
+      - 'matrix/**'        
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        configuration: [Release] #[Release, Debug]
+        build_type: [SHARED] #[SHARED, STATIC]
+        
+    steps:
+      # Проверка репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      # Установка необходимых инструментов
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake python3-pip doxygen graphviz
+          pip3 install conan>=2.0
+
+
+      # Установка зависимостей через Conan
+      - name: Install Conan and project dependencies
+        run: |
+          conan profile detect
+          conan install . --output-folder=matrix/build --build=missing -s build_type=${{ matrix.configuration }}
+
+      # Проверка наличия conan_toolchain.cmake
+      - name: Check if toolchain file exists
+        run: |
+          ls matrix/build
+
+      # Конфигурация CMake с использованием Conan toolchain file
+      - name: Configure CMake
+        run: |
+          cd matrix/build
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
+                -DPATCH_VERSION=${{ github.run_number }} \
+                -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
+                -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF)
+          
+      # Сборка проекта
+      - name: Build project
+        run: |
+          cd matrix/build
+          cmake --build .
+      
+      # Запуск тестов
+      - name: Run tests
+        run: | 
+          cd matrix/build
+          ctest .
+
+      # Условие для создания release:
+      - name: Package with CPack
+        if: matrix.configuration == 'Release'
+        run: |
+          cd matrix/build
+          cpack -G DEB
+          echo "Packages created for ${{ matrix.build_type }} ${{ matrix.configuration }}"
+
+      # Генерация уникального тега
+      - name: Generate unique release tag
+        id: generate_tag
+        run: |
+          # Создаем уникальный тег на основе run_number и временной метки
+          TAG_NAME="release-${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
+          echo "Generated tag: $TAG_NAME"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV  # Сохраняем его в переменной окружения
+
+      # Создание релиза с уникальным тегом
+      - name: Create Release
+        if: matrix.configuration == 'Release'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.tag_name }}    # Используем переменную окружения для тега
+          release_name: "Release ${{ env.tag_name }}"  # Используем тот же тег как имя релиза
+          draft: false
+          prerelease: false
+        
+      - name: Upload Release Asset
+        if: matrix.configuration == 'Release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./matrix/build/matrix-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
+          asset_name: matrix-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
+          asset_content_type: application/vnd.debian.binary-package   
+
+      # Генерация документации
+      - name: Generate Documentation
+        run: |
+          cd matrix
+          doxygen Doxyfile
+
+      # Загрузка документации как артефакта
+      - name: Upload Documentation Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-matrix
+          path: ./matrix/docs
+      
+      # Деплой документации на GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages                 # ветка для Pages (обычно gh-pages)
+          folder: ./matrix/docs/html       # папка, в которой сгенерирована документация
+
+            
