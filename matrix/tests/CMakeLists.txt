@@ -1,6 +1,5 @@
 add_executable(tests test_main.cpp)
 
-target_sources(tests PRIVATE ${PROJECT_SOURCE_DIR}/app/src/allocators.cpp)
 target_include_directories(tests PUBLIC ${PROJECT_SOURCE_DIR}/app/include)
 
 # Находим Google Test и Google Mock
