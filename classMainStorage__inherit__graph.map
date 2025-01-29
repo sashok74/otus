@@ -1,5 +1,0 @@
-<map id="MainStorage" name="MainStorage">
-<area shape="rect" id="Node000001" title="Пример реализации хранилища для редактора." alt="" coords="15,79,119,104"/>
-<area shape="rect" id="Node000002" href="$classEditor_1_1IStorage.html" title="Интерфейс для хранения документов." alt="" coords="5,5,128,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,44,69,79,64,79,64,44"/>
-</map>

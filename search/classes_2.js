@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['editor_0',['Editor',['../classEditor.html',1,'']]]
+  ['proxyelement_0',['ProxyElement',['../classmatrix_1_1ProxyElement.html',1,'matrix']]]
 ];

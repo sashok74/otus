@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['line_0',['Line',['../classLine.html',1,'']]]
+  ['typeofmatrixmap_0',['TypeOfMatrixMap',['../classTypeOfMatrixMap.html',1,'']]]
 ];

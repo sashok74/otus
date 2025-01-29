@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classGraphicPrimitive.html" title="Базовый класс для графических примитивов." alt="" coords="5,31,136,56"/>
-<area shape="rect" id="Node000001" href="$classCircle.html" title="Класс, представляющий круг." alt="" coords="184,5,243,31"/>
-<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="149,27,183,20,184,26,150,32"/>
-<area shape="rect" id="Node000002" href="$classLine.html" title="Класс, представляющий линию." alt="" coords="189,55,238,80"/>
-<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="150,54,189,61,188,66,149,59"/>
-</map>

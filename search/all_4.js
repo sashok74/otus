@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['getdocument_0',['getDocument',['../classEditor.html#a7aebfa4dcd2d178abc116f3eadca8dd0',1,'Editor']]],
-  ['getprimitives_1',['getPrimitives',['../classDocument.html#a5296a5e3b3d63c2ecced2564484aa947',1,'Document']]],
-  ['graphicprimitive_2',['GraphicPrimitive',['../classGraphicPrimitive.html',1,'']]]
+  ['matrix_0',['matrix',['../classmatrix.html',1,'matrix&lt; T, TypeOfMatrix &gt;'],['../classmatrix.html#a2483267662631ec90d464cd6665fc176',1,'matrix::matrix(T zero=T())'],['../classmatrix.html#a07541a1d423791bced876e80e76059fb',1,'matrix::matrix(std::size_t rows, std::size_t cols, T zero=T())']]],
+  ['matrix_2eh_1',['matrix.h',['../matrix_8h.html',1,'']]]
 ];
