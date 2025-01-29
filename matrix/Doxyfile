@@ -4,3 +4,4 @@
      RECURSIVE              = YES
      GENERATE_HTML          = YES
      GENERATE_LATEX         = NO
+     ENABLED_SECTIONS       = YES

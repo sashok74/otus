@@ -51,7 +51,7 @@ jobs:
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
                 -DPATCH_VERSION=${{ github.run_number }} \
                 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
-                -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF)
+                -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF) \
                 -DCMAKE_CXX_FLAGS="-static-libstdc++"
           
       # Сборка проекта
