@@ -17,9 +17,10 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        configuration: [Release, Debug]
-        build_type: [STATIC, SHARED]
-        
+        # configuration: [Release, Debug]
+        # build_type: [STATIC, SHARED]
+        configuration: [Release]
+        build_type: [STATIC]        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -68,17 +69,20 @@ jobs:
                 -DPATCH_VERSION=${{ github.run_number }} \
                 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
                 -DBUILD_SHARED_LIBS=$([ "${{ matrix.build_type }}" == 'SHARED' ] && echo ON || echo OFF)
-
+          
+      # Сборка проекта
       - name: Build project
         run: |
           cd bulk/build
           cmake --build .
-
+      
+      # Запуск тестов
       - name: Run tests
         run: | 
           cd bulk/build
           ctest .
 
+      # Условие для создания release:
       - name: Package with CPack
         if: matrix.configuration == 'Release'
         run: |
@@ -97,10 +101,12 @@ jobs:
       - name: Generate unique release tag
         id: generate_tag
         run: |
+          # Создаем уникальный тег на основе run_number и временной метки
           TAG_NAME="release-${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
           echo "Generated tag: $TAG_NAME"
           echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
 
+      # Создание релиза с уникальным тегом
       - name: Create Release
         if: matrix.configuration == 'Release'
         id: create_release
@@ -108,8 +114,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.tag_name }}
-          release_name: "Release ${{ env.tag_name }}"
+          tag_name: ${{ env.tag_name }}    # Используем переменную окружения для тега
+          release_name: "Release ${{ env.tag_name }}"  # Используем тот же тег как имя релиза
           draft: false
           prerelease: false
         
@@ -124,11 +130,13 @@ jobs:
           asset_name: bulk-0.0.${{ github.run_number }}-${{ env.BUILD_SUFFIX }}.deb
           asset_content_type: application/vnd.debian.binary-package   
 
+      # Генерация документации
       - name: Generate Documentation
         run: |
           cd bulk
           doxygen Doxyfile
 
+      # Загрузка документации как артефакта
       - name: Upload Documentation Artifact
         uses: actions/upload-artifact@v3
         with:
