@@ -1,0 +1,4 @@
+<map id="LogStorage" name="LogStorage">
+<area shape="rect" id="node1" title="Хранилище команд с возможностью выполнить обратный вызов при создании блока." alt="" coords="13,80,107,107"/>
+<area shape="rect" id="node2" href="$classBulk_1_1Storage.html" title="Класс для хранения команд." alt="" coords="5,5,115,32"/>
+</map>

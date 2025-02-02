@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classBulk_1_1Storage.html" title="Класс для хранения команд." alt="" coords="5,5,115,32"/>
+<area shape="rect" id="node2" href="$classLogStorage.html" title="Хранилище команд с возможностью выполнить обратный вызов при создании блока." alt="" coords="163,5,257,32"/>
+</map>

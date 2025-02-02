@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['row_19',['Row',['../classmatrix_1_1Row.html',1,'matrix']]],
-  ['rowconst_20',['RowConst',['../classmatrix_1_1RowConst.html',1,'matrix']]]
+  ['logger_24',['Logger',['../classLogger.html',1,'']]],
+  ['logstorage_25',['LogStorage',['../classLogStorage.html',1,'']]]
 ];

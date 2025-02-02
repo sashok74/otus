@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['matrix_17',['matrix',['../classmatrix.html',1,'']]]
+  ['consolelogger_21',['ConsoleLogger',['../classConsoleLogger.html',1,'']]],
+  ['consolereader_22',['ConsoleReader',['../classConsoleReader.html',1,'']]]
 ];

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['set_12',['set',['../classmatrix.html#a9e2da83513e21746a697646434b0bef3',1,'matrix']]],
-  ['size_13',['size',['../classmatrix.html#afd7010fa28e26954608a1792cd19bd49',1,'matrix']]],
-  ['sparsematrixcsr_14',['SparseMatrixCSR',['../classSparseMatrixCSR.html',1,'']]]
+  ['_7elogger_16',['~Logger',['../classLogger.html#a68cafca721107a954d85043a553dd217',1,'Logger']]],
+  ['_7elogstorage_17',['~LogStorage',['../classLogStorage.html#ad9e92e507c284c1e6fc2b6d9e8eefce5',1,'LogStorage']]],
+  ['_7ereader_18',['~Reader',['../classBulk_1_1Reader.html#aa7200ba922da462a4ec8568204bc2869',1,'Bulk::Reader']]],
+  ['_7estorage_19',['~Storage',['../classBulk_1_1Storage.html#ae1dc210a7b05cde14cb85a194ed7623d',1,'Bulk::Storage']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sparsematrixcsr_21',['SparseMatrixCSR',['../classSparseMatrixCSR.html',1,'']]]
+  ['reader_26',['Reader',['../classBulk_1_1Reader.html',1,'Bulk']]]
 ];
