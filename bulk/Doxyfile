@@ -1,9 +1,10 @@
      PROJECT_NAME           = "Bulk"
      OUTPUT_DIRECTORY       = ./docs
      INPUT                  = ./app 
+     FILE_PATTERNS          = *.h *.hpp *.c *.cpp *.cc *.cxx
      RECURSIVE              = YES
      GENERATE_HTML          = YES
      GENERATE_LATEX         = NO
      ENABLED_SECTIONS       = YES
      USE_MDFILE_AS_MAINPAGE = 
-     MARKDOWN_SUPPORT = YES
+     MARKDOWN_SUPPORT       = YES
