@@ -138,7 +138,7 @@ jobs:
 
       # Загрузка документации как артефакта
       - name: Upload Documentation Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: documentation-bulk
           path: ./bulk/docs
