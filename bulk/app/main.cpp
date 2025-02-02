@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
 
     storage->addListener(consoleLogger);
     storage->addListener(fileLogger, &FileLogger::log);  //этот вариант мне больше нравится.
-    storage->addListener(
-        [](std::time_t timestamp, const std::string& commands) { std::cout << "я лямбда!"; });
+                                                         //   storage->addListener(
+    //       [](std::time_t timestamp, const std::string& commands) { std::cout << "я лямбда!"; });
 
     Bulk bulk(reader, storage);
 
