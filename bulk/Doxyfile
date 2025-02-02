@@ -1,0 +1,9 @@
+     PROJECT_NAME           = "Bulk"
+     OUTPUT_DIRECTORY       = ./docs
+     INPUT                  = ./app 
+     RECURSIVE              = YES
+     GENERATE_HTML          = YES
+     GENERATE_LATEX         = NO
+     ENABLED_SECTIONS       = YES
+     USE_MDFILE_AS_MAINPAGE = 
+     MARKDOWN_SUPPORT = YES
