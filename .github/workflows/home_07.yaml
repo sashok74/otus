@@ -149,3 +149,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: ./bulk/docs/html
+          artifact_name: github-pages-${{ github.run_number }}  # Уникальное имя для артефакта
