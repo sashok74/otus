@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "finddub/finddub.h"
 
+#include "finddub/finddub.h"
 
 TEST(VersionTest, ReturnsPositiveValue) {
     EXPECT_GT(version(), 0);

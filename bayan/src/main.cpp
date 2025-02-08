@@ -1,8 +1,8 @@
-#include "finddub/finddub.h"
 #include <iostream>
 
-int main (int, char **) 
-{
+#include "finddub/finddub.h"
+
+int main(int, char **) {
     std::cout << "Version: " << version() << std::endl;
     return 0;
 }

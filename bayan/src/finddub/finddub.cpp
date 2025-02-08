@@ -1,4 +1,5 @@
 #include "finddub/finddub.h"
+
 #include "version.h"
 
 int version() {
