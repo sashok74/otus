@@ -14,22 +14,14 @@ set_target_properties(bulk tests PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-# Include Conan's CMake file
-# include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-# conan_basic_setup()
-
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan_toolchain.cmake")
    message(FATAL_ERROR "Conan toolchain file not found. Make sure to run `conan install` first.")
 endif()
 include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
-# №target_include_directories(bulk PRIVATE "${CMAKE_BINARY_DIR}")
-# target_include_directories(tests PRIVATE "${CMAKE_BINARY_DIR}")
-# target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/app/include)
+
 
 install(TARGETS bulk RUNTIME DESTINATION bin)
-
 set(CPACK_GENERATOR DEB)
-
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
