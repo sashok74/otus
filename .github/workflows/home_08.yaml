@@ -13,22 +13,52 @@ on:
       - 'bayan/**'        
 
 jobs:
-  build:
+  docs:  # Генерация документации перед сборкой
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        # configuration: [Release, Debug]
-        build_type: [STATIC, SHARED]
-        configuration: [Release]
-        # build_type: [STATIC]        
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake python3-pip doxygen graphviz clang-format
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate Documentation
+        run: |
+          cd bayan
+          doxygen Doxyfile
+
+      - name: Upload Documentation Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-bayan-${{ github.run_number }}
+          path: ./bayan/docs
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: ./bayan/docs/html
+          artifact_name: github-pages-${{ github.run_number }}
+
+  build:
+    needs: docs  # Ждет завершения генерации документации
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        build_type: [STATIC, SHARED]
+        configuration: [Release]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake python3-pip clang-format
           pip3 install "conan>=2.0"
 
       - name: Cache Conan packages
@@ -75,7 +105,7 @@ jobs:
         run: |
           cd bayan/build
           cmake --build .
-
+      
       # Запуск тестов
       - name: Run tests
         run: | 
@@ -128,25 +158,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./bayan/build/bayan-0.0.${{ github.run_number }}-${{ env.BUILD_SUFFIX }}.deb
           asset_name: bayan-0.0.${{ github.run_number }}-${{ env.BUILD_SUFFIX }}.deb
-          asset_content_type: application/vnd.debian.binary-package   
-
-      # Генерация документации
-      - name: Generate Documentation
-        run: |
-          cd bayan
-          doxygen Doxyfile
-
-      # Загрузка документации как артефакта
-      - name: Upload Documentation Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation-bayan-${{ github.run_number }}
-          path: ./bayan/docs
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: ./bayan/docs/html
-          artifact_name: github-pages-${{ github.run_number }}  # Уникальное имя для артефакта
+          asset_content_type: application/vnd.debian.binary-package
