@@ -1,3 +1,4 @@
+/// библиотека для поиска дублей
 #include "finddub/finddub.h"
 
 #include "version.h"

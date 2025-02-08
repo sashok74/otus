@@ -75,12 +75,6 @@ jobs:
         run: |
           cd bayan/build
           cmake --build .
-      
-      # Печать версии
-      - name: Print project version
-        run: |
-          cd ci-cd/build/app
-          ./HelloApp  
 
       # Запуск тестов
       - name: Run tests
