@@ -118,44 +118,31 @@ jobs:
         run: |
           cd bayan/build
           cpack -G DEB
-          echo "Packages created for ${{ matrix.build_type }} ${{ matrix.configuration }}"
-
-      - name: Set Build Type Suffix
-        run: |
-          if [ "${{ matrix.build_type }}" == "SHARED" ]; then
-            echo "BUILD_SUFFIX=shared" >> $GITHUB_ENV
-          else
-            echo "BUILD_SUFFIX=static" >> $GITHUB_ENV
-          fi
-
-      - name: Generate unique release tag
-        id: generate_tag
-        run: |
-          # Создаем уникальный тег на основе run_number и временной метки
-          TAG_NAME="release-${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
-          echo "Generated tag: $TAG_NAME"
-          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
-
-      # Создание релиза с уникальным тегом
-      - name: Create Release
-        if: matrix.configuration == 'Release'
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.tag_name }}    # Используем переменную окружения для тега
-          release_name: "Release ${{ env.tag_name }}"  # Используем тот же тег как имя релиза
-          draft: false
-          prerelease: false
+        - name: Generate shared release tag
+          if: matrix.build_type == 'STATIC'
+          run: |
+            TAG_NAME="release-${{ github.run_number }}"
+            echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
         
-      - name: Upload Release Asset
-        if: matrix.configuration == 'Release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bayan/build/bayan-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
-          asset_name: bayan-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
-          asset_content_type: application/vnd.debian.binary-package
+        - name: Create Release (only once)
+          if: matrix.build_type == 'STATIC'
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ env.tag_name }}
+            release_name: "Release ${{ env.tag_name }}"
+            draft: false
+            prerelease: false
+        
+        - name: Upload Release Asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url || github.event.release.upload_url }}
+            asset_path: ./bayan/build/bayan-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
+            asset_name: bayan-0.0.${{ github.run_number }}-${{ matrix.build_type == 'SHARED' && 'shared' || 'static' }}.deb
+            asset_content_type: application/vnd.debian.binary-package
+  
