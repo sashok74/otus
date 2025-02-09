@@ -61,7 +61,7 @@ jobs:
           pip3 install "conan>=2.0"
 
       - name: Cache Conan packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.conan
           key: conan-${{ runner.os }}-${{ matrix.configuration }}
@@ -113,7 +113,7 @@ jobs:
 
       # Загрузка билда как артефакт
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bayan-${{ matrix.build_type }}-build
           path: ./bayan/build/bayan-0.0.${{ github.run_number }}-${{ matrix.build_type }}.deb
@@ -126,13 +126,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bayan-STATIC-build
           path: ./artifacts/static
 
       - name: Download Build SHARED Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bayan-SHARED-build
           path: ./artifacts/shared
