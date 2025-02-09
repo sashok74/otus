@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'bayan/**'  
+      - 'bayan/**'
   pull_request:
     branches:
       - main
-    paths:  
+    paths:
       - 'bayan/**'        
 
 jobs:
@@ -41,12 +41,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: ./bayan/docs/html
-          artifact_name: github-pages-${{ github.run_number }}
 
   build:
-    needs: docs  # Ждет завершения генерации документации
-    env:
-      RUN_NUMBER: ${{ github.run_number }}
+    needs: docs  # Зависимость от генерации документации
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -75,7 +72,7 @@ jobs:
       - name: Run clang-format check
         run: |
           find bayan/ -name "*.cpp" -o -name "*.h" | xargs clang-format -style=file --dry-run -Werror
-      
+
       # Conan     
       - name: Install Conan and project dependencies
         run: |
@@ -91,7 +88,7 @@ jobs:
             BUILD_SHARED_LIBS=OFF
           fi
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
-                    -DPATCH_VERSION=${RUN_NUMBER} \
+                    -DPATCH_VERSION=${{ github.run_number }} \
                     -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
                     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
           
@@ -100,27 +97,51 @@ jobs:
         run: |
           cd bayan/build
           cmake --build .
-      
+
       # Запуск тестов
       - name: Run tests
         run: | 
           cd bayan/build
-          ctest .
+          ctest --output-on-failure
 
-      - name: Generate unique release tag
-        id: generate_tag
-        run: |
-          TAG_NAME="release-${RUN_NUMBER}-$(date +%Y%m%d%H%M%S)"
-          echo "Generated tag: $TAG_NAME"
-          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV  
-
-      # Условие для создания release:
+      # Создание пакета с помощью CPack
       - name: Package with CPack
-        if: matrix.configuration == 'Release'
         run: |
-          cd ci-cd/build
+          cd bayan/build
           cpack -G DEB
           echo "Packages created for ${{ matrix.build_type }} ${{ matrix.configuration }}"
+
+      # Загрузка билда как артефакт
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bayan-${{ matrix.build_type }}-build
+          path: ./bayan/build/bayan-0.0.${{ github.run_number }}-${{ matrix.build_type }}.deb
+
+  release:
+    needs: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bayan-STATIC-build
+          path: ./artifacts/static
+
+      - name: Download Build SHARED Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bayan-SHARED-build
+          path: ./artifacts/shared
+
+      - name: Generate Release Tag
+        id: generate_tag
+        run: |
+          TAG_NAME="release-${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -133,23 +154,24 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset for STATIC build
+      # Добавление статического билда в релиз
+      - name: Upload STATIC Build Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bayan/build/bayan-0.0.${{ github.run_number }}-STATIC.deb
+          asset_path: ./artifacts/static/bayan-0.0.${{ github.run_number }}-STATIC.deb
           asset_name: bayan-0.0.${{ github.run_number }}-STATIC.deb
           asset_content_type: application/vnd.debian.binary-package
 
-      - name: Upload Release Asset for SHARED build
+      # Добавление shared билда в релиз
+      - name: Upload SHARED Build Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bayan/build/bayan-0.0.${{ github.run_number }}-SHARED.deb
+          asset_path: ./artifacts/shared/bayan-0.0.${{ github.run_number }}-SHARED.deb
           asset_name: bayan-0.0.${{ github.run_number }}-SHARED.deb
           asset_content_type: application/vnd.debian.binary-package
-
