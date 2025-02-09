@@ -28,6 +28,7 @@ configure_file(
 )
 
 # Сообщаем библиотекам, где искать сгенерированный version.h
+target_include_directories(finddub PRIVATE "${CMAKE_BINARY_DIR}")
 target_include_directories(tests PRIVATE "${CMAKE_BINARY_DIR}")
 
 if(BUILD_SHARED_LIBS)
