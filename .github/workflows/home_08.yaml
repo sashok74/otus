@@ -114,6 +114,14 @@ jobs:
           echo "Generated tag: $TAG_NAME"
           echo "tag_name=$TAG_NAME" >> $GITHUB_ENV  
 
+      # Условие для создания release:
+      - name: Package with CPack
+        if: matrix.configuration == 'Release'
+        run: |
+          cd ci-cd/build
+          cpack -G DEB
+          echo "Packages created for ${{ matrix.build_type }} ${{ matrix.configuration }}"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
