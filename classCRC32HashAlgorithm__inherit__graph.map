@@ -1,0 +1,4 @@
+<map id="CRC32HashAlgorithm" name="CRC32HashAlgorithm">
+<area shape="rect" id="node1" title="Класс для вычисления хэша с использованием алгоритма CRC32." alt="" coords="5,80,168,107"/>
+<area shape="rect" id="node2" href="$classIHashAlgorithm.html" title="Абстрактный базовый класс для алгоритмов хэширования." alt="" coords="25,5,148,32"/>
+</map>

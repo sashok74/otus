@@ -1,0 +1,4 @@
+<map id="MD5HashAlgorithm" name="MD5HashAlgorithm">
+<area shape="rect" id="node1" title="Класс для вычисления хэша с использованием алгоритма MD5." alt="" coords="5,80,155,107"/>
+<area shape="rect" id="node2" href="$classIHashAlgorithm.html" title="Абстрактный базовый класс для алгоритмов хэширования." alt="" coords="19,5,141,32"/>
+</map>
