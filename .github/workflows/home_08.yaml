@@ -91,7 +91,12 @@ jobs:
                     -DPATCH_VERSION=${{ github.run_number }} \
                     -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
                     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-          
+      
+      # копирования mdoc файла в сборку
+      - name: Copy mdoc file into build
+        run: |
+          cp bayan/bayan.1 bayan/build/
+
       # Сборка проекта
       - name: Build project
         run: |
