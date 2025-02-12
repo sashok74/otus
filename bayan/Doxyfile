@@ -1,6 +1,6 @@
      PROJECT_NAME           = "bayan"
      OUTPUT_DIRECTORY       = ./docs
-     INPUT                  = ./ 
+     INPUT                  = .
      FILE_PATTERNS          = *.h *.hpp *.c *.cpp *.cc *.cxx
      RECURSIVE              = YES
      GENERATE_HTML          = YES
