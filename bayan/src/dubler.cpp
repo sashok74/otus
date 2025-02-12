@@ -1,14 +1,15 @@
 #include "dubler.h"
 #include <cstdio>
+#include <cstring>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
-#include <cstring>
 
-
-std::ostream& operator<<(std::ostream& os, const HashValue &hv) {
+std::ostream &operator<<(std::ostream &os, const HashValue &hv)
+{
     os << std::hex << std::setfill('0');
-    for (const auto& byte : hv.data) {
+    for (const auto &byte : hv.data)
+    {
         os << std::setw(2) << static_cast<int>(byte);
     }
     os << std::dec; // Возвращаем формат в десятичный
@@ -16,10 +17,11 @@ std::ostream& operator<<(std::ostream& os, const HashValue &hv) {
 }
 
 //==========================================================================
-// CRC32HashAlgorithm 
+// CRC32HashAlgorithm
 //==========================================================================
 
-HashValue CRC32HashAlgorithm::compute(const char* data, std::size_t length) const {
+HashValue CRC32HashAlgorithm::compute(const char *data, std::size_t length) const
+{
     HashValue hv;
     hv.data.fill(0);
     boost::crc_32_type crc;
@@ -30,17 +32,19 @@ HashValue CRC32HashAlgorithm::compute(const char* data, std::size_t length) cons
 }
 
 //==========================================================================
-// MD5HashAlgorithm 
+// MD5HashAlgorithm
 //==========================================================================
 
-HashValue MD5HashAlgorithm::compute(const char* data, std::size_t length) const {
+HashValue MD5HashAlgorithm::compute(const char *data, std::size_t length) const
+{
     HashValue hv;
     hv.data.fill(0);
     boost::uuids::detail::md5 md5;
     md5.process_bytes(data, length);
     boost::uuids::detail::md5::digest_type digest;
     md5.get_digest(digest);
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         uint32_t part = digest[i];
         std::memcpy(hv.data.data() + i * sizeof(uint32_t), &part, sizeof(uint32_t));
     }
@@ -48,7 +52,7 @@ HashValue MD5HashAlgorithm::compute(const char* data, std::size_t length) const 
 }
 
 //==========================================================================
-// DuplicateFinder 
+// DuplicateFinder
 //==========================================================================
 
 DuplicateFinder::DuplicateFinder(const std::vector<std::string> &directories,
@@ -62,27 +66,37 @@ DuplicateFinder::DuplicateFinder(const std::vector<std::string> &directories,
     fileMasks_(fileMasks), minFileSize_(minFileSize), blockSize_(blockSize)
 {
     /// выбираем алгоритм хэширования в зависимости от переданного типа.
-    if (hashAlgorithmType == "crc32") {
+    if (hashAlgorithmType == "crc32")
+    {
         hashAlgorithmStrategy_ = std::make_unique<CRC32HashAlgorithm>();
-    } else if (hashAlgorithmType == "md5") {
+    }
+    else if (hashAlgorithmType == "md5")
+    {
         hashAlgorithmStrategy_ = std::make_unique<MD5HashAlgorithm>();
-    } else {
+    }
+    else
+    {
         throw std::invalid_argument("Unsupported hash algorithm type: " + hashAlgorithmType);
     }
 }
 
-void DuplicateFinder::registerDuplicateList(std::vector<std::string> &duplicateList) {
+void DuplicateFinder::registerDuplicateList(std::vector<std::string> &duplicateList)
+{
     duplicateLists_.push_back(&duplicateList);
 }
 
-std::vector<std::string> DuplicateFinder::scan() {
-    for (const auto &dir : directories_) {
+std::vector<std::string> DuplicateFinder::scan()
+{
+    for (const auto &dir : directories_)
+    {
         processDirectory(fs::path(dir), 0);
     }
 
     std::vector<std::string> result;
-    for (std::size_t i = 0; i < duplicateLists_.size(); ++i) {
-        if (duplicateLists_[i]) {
+    for (std::size_t i = 0; i < duplicateLists_.size(); ++i)
+    {
+        if (duplicateLists_[i])
+        {
             result.insert(result.end(), duplicateLists_[i]->begin(), duplicateLists_[i]->end());
             if (i < duplicateLists_.size() - 1)
                 result.push_back(""); // Разделитель между группами
@@ -91,11 +105,13 @@ std::vector<std::string> DuplicateFinder::scan() {
     return result;
 }
 
-bool DuplicateFinder::matchesMask(const std::string &filename) const {
+bool DuplicateFinder::matchesMask(const std::string &filename) const
+{
     if (fileMasks_.empty())
         return true;
 
-    for (const auto &mask : fileMasks_) {
+    for (const auto &mask : fileMasks_)
+    {
         std::string regexPattern = boost::replace_all_copy(mask, ".", "\\.");
         boost::replace_all(regexPattern, "*", ".*");
         boost::replace_all(regexPattern, "?", ".");
@@ -107,25 +123,32 @@ bool DuplicateFinder::matchesMask(const std::string &filename) const {
     return false;
 }
 
-HashValue DuplicateFinder::computeHash(const char* data, std::size_t length) const {
+HashValue DuplicateFinder::computeHash(const char *data, std::size_t length) const
+{
     return hashAlgorithmStrategy_->compute(data, length);
 }
 
-void DuplicateFinder::processDirectory(const fs::path &directory, int depth) {
+void DuplicateFinder::processDirectory(const fs::path &directory, int depth)
+{
     if (maxDepth_ > 0 && depth > maxDepth_)
         return;
 
     // Если полный путь содержит хотя бы один из исключаемых директорий, пропускаем обработку.
     std::string dirStr = directory.string();
-    for (const auto &exclude : excludeDirs_) {
+    for (const auto &exclude : excludeDirs_)
+    {
         if (dirStr.find(exclude) != std::string::npos)
             return;
     }
 
-    try {
-        for (const auto &entry : fs::directory_iterator(directory)) {
-            try {
-                if (!fs::exists(entry) || !(fs::status(entry).permissions() & fs::owner_read)) {
+    try
+    {
+        for (const auto &entry : fs::directory_iterator(directory))
+        {
+            try
+            {
+                if (!fs::exists(entry) || !(fs::status(entry).permissions() & fs::owner_read))
+                {
                     std::cerr << "Skipping (no access): " << entry.path() << std::endl;
                     continue;
                 }
@@ -136,16 +159,21 @@ void DuplicateFinder::processDirectory(const fs::path &directory, int depth) {
                     processDirectory(entry, depth + 1);
                 else if (fs::is_regular_file(entry))
                     processFile(entry);
-            } catch (const fs::filesystem_error &ex) {
+            }
+            catch (const fs::filesystem_error &ex)
+            {
                 std::cerr << "Warning: " << ex.what() << " Path: " << entry.path() << std::endl;
             }
         }
-    } catch (const fs::filesystem_error &ex) {
+    }
+    catch (const fs::filesystem_error &ex)
+    {
         std::cerr << "Error: " << ex.what() << " Directory: " << directory << std::endl;
     }
 }
 
-void DuplicateFinder::processFile(const fs::path &filePath) {
+void DuplicateFinder::processFile(const fs::path &filePath)
+{
     if (!matchesMask(filePath.filename().string()))
         return;
 
@@ -156,20 +184,26 @@ void DuplicateFinder::processFile(const fs::path &filePath) {
     addFile(filePath.string(), fileSize);
 }
 
-void DuplicateFinder::addFile(std::string fileName, std::size_t fileSize) {
-    if (!rootNode_) {
+void DuplicateFinder::addFile(std::string fileName, std::size_t fileSize)
+{
+    if (!rootNode_)
+    {
         rootNode_ = std::make_unique<Node>(this, std::move(fileName), fileSize, 0);
         return;
     }
-    try {
+    try
+    {
         rootNode_->processFile(std::move(fileName), fileSize);
-    } catch (...) {
+    }
+    catch (...)
+    {
         // Здесь можно добавить обработку исключений и логирование
     }
 }
 
 std::vector<char> DuplicateFinder::readFileBlock(const std::string &filePath,
-                                                   std::size_t blockNumber) const {
+                                                 std::size_t blockNumber) const
+{
     std::ifstream file(filePath, std::ios::binary);
     if (!file.is_open())
         throw std::runtime_error("Unable to open file: " + filePath);
@@ -185,7 +219,7 @@ std::vector<char> DuplicateFinder::readFileBlock(const std::string &filePath,
 }
 
 //==========================================================================
-// Node 
+// Node
 //==========================================================================
 
 Node::Node(DuplicateFinder *finder,
@@ -194,17 +228,20 @@ Node::Node(DuplicateFinder *finder,
            std::size_t level)
   : finder_(finder), level_(level), initialFile_(std::move(initialFile)), fileSize_(fileSize)
 {
-    if (finder_->blockSize_ * level_ >= fileSize) {
+    if (finder_->blockSize_ * level_ >= fileSize)
+    {
         duplicateFiles_.push_back(std::move(initialFile_));
         if (duplicateFiles_.size() == 2)
             finder_->registerDuplicateList(duplicateFiles_);
         return;
-    }    
+    }
 }
 
-void Node::processFile(std::string fileName, std::size_t fileSize) {
+void Node::processFile(std::string fileName, std::size_t fileSize)
+{
     // Если достигли конца файла на данном уровне, файл считается дубликатом.
-    if (finder_->blockSize_ * level_ >= fileSize) {
+    if (finder_->blockSize_ * level_ >= fileSize)
+    {
         duplicateFiles_.push_back(std::move(fileName));
         if (duplicateFiles_.size() == 2)
             finder_->registerDuplicateList(duplicateFiles_);
@@ -212,7 +249,8 @@ void Node::processFile(std::string fileName, std::size_t fileSize) {
     }
 
     // Для первого файла инициализируем дочерний узел.
-    if (children_.empty()) {
+    if (children_.empty())
+    {
         auto buffer = finder_->readFileBlock(initialFile_, level_);
         auto hash = finder_->computeHash(buffer.data(), buffer.size());
         children_.emplace(std::move(hash),
@@ -226,12 +264,12 @@ void Node::processFile(std::string fileName, std::size_t fileSize) {
     if (it != children_.end())
         it->second->processFile(std::move(fileName), fileSize);
     else
-        children_.emplace(std::move(hash),
-                          std::make_unique<Node>(finder_, std::move(fileName), fileSize, level_ + 1));
+        children_.emplace(std::move(hash), std::make_unique<Node>(finder_, std::move(fileName),
+                                                                  fileSize, level_ + 1));
 }
 
 //==========================================================================
-// Утилитарная функция 
+// Утилитарная функция
 //==========================================================================
 
 std::vector<std::string> scanDirectory(const std::vector<std::string> &directories,
@@ -240,7 +278,9 @@ std::vector<std::string> scanDirectory(const std::vector<std::string> &directori
                                        const std::vector<std::string> &fileMasks,
                                        std::size_t minFileSize,
                                        std::size_t blockSize,
-                                       const std::string &hashAlgorithmType) {
-    DuplicateFinder finder(directories, excludeDirs, maxDepth, fileMasks, minFileSize, blockSize, hashAlgorithmType);
+                                       const std::string &hashAlgorithmType)
+{
+    DuplicateFinder finder(directories, excludeDirs, maxDepth, fileMasks, minFileSize, blockSize,
+                           hashAlgorithmType);
     return finder.scan();
 }

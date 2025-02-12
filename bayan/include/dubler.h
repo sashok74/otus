@@ -7,65 +7,66 @@
 #include <boost/regex.hpp>
 #include <boost/uuid/detail/md5.hpp>
 
+#include <array>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
-#include <vector>
 #include <variant>
-#include <array>
-#include <cstdint>
-#include <cstring>
-#include <iostream>
-#include <iomanip>
+#include <vector>
 namespace fs = boost::filesystem;
 
 /**
  * @brief Структура для представления значения хэша.
  */
-struct HashValue {
+struct HashValue
+{
     std::array<unsigned char, 16> data;
 
-    bool operator==(const HashValue &other) const {
-        return data == other.data;
-    }
+    bool operator==(const HashValue &other) const { return data == other.data; }
 };
 
 /**
  * @brief Перегружает оператор << для вывода объекта HashValue в поток.
- * 
+ *
  * Выводит содержимое хэш-значения в виде шестнадцатеричной строки.
  *
  * @param os Поток вывода.
  * @param hv Объект HashValue.
  * @return std::ostream& Ссылка на поток вывода.
  */
-std::ostream& operator<<(std::ostream& os, const HashValue &hv);
+std::ostream &operator<<(std::ostream &os, const HashValue &hv);
 
 /**
  * @brief Специализация std::hash для структуры HashValue.
  */
-namespace std {
-    template <>
-    struct hash<HashValue> {
-        std::size_t operator()(const HashValue &hv) const {
-            std::size_t result;
-            std::memcpy(&result, hv.data.data(), sizeof(result));
-            return result;
-        }
-    };
-}
+namespace std
+{
+template <> struct hash<HashValue>
+{
+    std::size_t operator()(const HashValue &hv) const
+    {
+        std::size_t result;
+        std::memcpy(&result, hv.data.data(), sizeof(result));
+        return result;
+    }
+};
+} // namespace std
 
 /**
  * @brief Абстрактный базовый класс для алгоритмов хэширования.
  *
  * Реализует паттерн «Стратегия» для вычисления хэшей.
  */
-class IHashAlgorithm {
-public:
+class IHashAlgorithm
+{
+  public:
     /**
      * @brief Вычисляет хэш для заданного блока данных.
      *
@@ -73,7 +74,7 @@ public:
      * @param length Размер данных.
      * @return HashValue Вычисленный хэш.
      */
-    virtual HashValue compute(const char* data, std::size_t length) const = 0;
+    virtual HashValue compute(const char *data, std::size_t length) const = 0;
 
     virtual ~IHashAlgorithm() = default;
 };
@@ -81,17 +82,19 @@ public:
 /**
  * @brief Класс для вычисления хэша с использованием алгоритма CRC32.
  */
-class CRC32HashAlgorithm : public IHashAlgorithm {
-public:
-    virtual HashValue compute(const char* data, std::size_t length) const override;
+class CRC32HashAlgorithm : public IHashAlgorithm
+{
+  public:
+    virtual HashValue compute(const char *data, std::size_t length) const override;
 };
 
 /**
  * @brief Класс для вычисления хэша с использованием алгоритма MD5.
  */
-class MD5HashAlgorithm : public IHashAlgorithm {
-public:
-    virtual HashValue compute(const char* data, std::size_t length) const override;
+class MD5HashAlgorithm : public IHashAlgorithm
+{
+  public:
+    virtual HashValue compute(const char *data, std::size_t length) const override;
 };
 
 /**
@@ -100,8 +103,9 @@ public:
  * Класс сканирует заданные директории, фильтрует файлы по маскам и минимальному
  * размеру, затем группирует файлы по хэшам считанных блоков.
  */
-class DuplicateFinder {
-public:
+class DuplicateFinder
+{
+  public:
     /**
      * @brief Конструктор.
      *
@@ -151,9 +155,9 @@ public:
      * @param length Размер данных.
      * @return HashValue Вычисленный хэш.
      */
-    HashValue computeHash(const char* data, std::size_t length) const;
+    HashValue computeHash(const char *data, std::size_t length) const;
 
-private:
+  private:
     std::vector<std::vector<std::string> *> duplicateLists_; ///< Списки групп одинаковых файлов.
     std::unique_ptr<class Node> rootNode_; ///< Корневой узел дерева.
     std::vector<std::string> directories_;
@@ -204,8 +208,9 @@ private:
  *
  * Каждый узел сравнивает блок файла на определённом уровне.
  */
-class Node {
-public:
+class Node
+{
+  public:
     /**
      * @brief Конструктор узла.
      *
@@ -231,11 +236,11 @@ public:
      */
     void processFile(std::string fileName, std::size_t fileSize);
 
-private:
+  private:
     DuplicateFinder *finder_;
-    std::size_t level_;       ///< Текущий уровень сравнения (номер блока).
+    std::size_t level_; ///< Текущий уровень сравнения (номер блока).
     std::string initialFile_; ///< Первый файл, использованный для создания узла.
-    std::size_t fileSize_;    ///< Первый файл, размер.
+    std::size_t fileSize_; ///< Первый файл, размер.
     std::vector<std::string> duplicateFiles_; ///< Группа файлов, совпадающих на данном уровне.
     std::unordered_map<HashValue, std::unique_ptr<Node>> children_; ///< Узлы для следующего уровня.
 };
