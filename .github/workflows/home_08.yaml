@@ -57,7 +57,7 @@ jobs:
       - name: Set up environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake python3-pip clang-format
+          sudo apt-get install -y build-essential cmake python3-pip clang-format pandoc
           pip3 install "conan>=2.0"
 
       - name: Cache Conan packages
@@ -92,11 +92,6 @@ jobs:
                     -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} \
                     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
       
-      # копирования mdoc файла в сборку
-      - name: Copy mdoc file into build
-        run: |
-          cp bayan/bayan.1 bayan/build/
-
       # Сборка проекта
       - name: Build project
         run: |
