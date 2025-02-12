@@ -1,7 +1,0 @@
-     PROJECT_NAME           = "Editor"
-     OUTPUT_DIRECTORY       = ./docs
-     INPUT                  = ./app 
-     RECURSIVE              = YES
-     GENERATE_HTML          = YES
-     GENERATE_LATEX         = NO
-     ENABLED_SECTIONS       = YES
