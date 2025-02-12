@@ -28,7 +28,7 @@ class DuplicateFinderTest : public ::testing::Test
     void TearDown() override
     {
         // Удаляем временную директорию и все её содержимое.
-        // fs::remove_all(tempDir);
+        fs::remove_all(tempDir);
     }
 
     /**
@@ -107,7 +107,7 @@ TEST_F(DuplicateFinderTest, DuplicatesFound)
 
 TEST_F(DuplicateFinderTest, FileMaskFiltering)
 {
-    // Создаём файлы с разными расширениями.
+    // файлы с разными расширениями.
     auto file1 = tempDir / "file1.txt";
     auto file2 = tempDir / "file2.log";
     createFile(file1, "Some content");
