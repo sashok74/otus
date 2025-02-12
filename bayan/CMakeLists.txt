@@ -36,6 +36,16 @@ if(BUILD_SHARED_LIBS)
 endif()
 install(TARGETS bayan RUNTIME DESTINATION bin)
 
+#генерация доки
+add_custom_command(
+  OUTPUT ${CMAKE_BINARY_DIR}/bayan.1
+  COMMAND pandoc -s -t man ${CMAKE_SOURCE_DIR}/README.md -o ${CMAKE_BINARY_DIR}/bayan.1
+  DEPENDS ${CMAKE_SOURCE_DIR}/README.md
+  COMMENT "Конвертация README.md в man-страницу (bayan.1)"
+)
+add_custom_target(manpage ALL DEPENDS ${CMAKE_BINARY_DIR}/bayan.1)
+install(FILES ${CMAKE_BINARY_DIR}/bayan.1 DESTINATION share/man/man1)
+
 set(CPACK_GENERATOR DEB)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
