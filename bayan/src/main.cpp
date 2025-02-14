@@ -3,6 +3,7 @@
 #include "finddub/finddub.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
+#include <chrono>    
 #include <iostream>
 #include <set>
 #include <vector>
@@ -26,9 +27,10 @@ int main(int argc, char *argv[])
             ("min-size,m", po::value<size_t>()->default_value(1), "Minimum file size")
             ("mask,k", po::value<std::vector<std::string>>()->multitoken(), "File name masks")
             ("block-size,s", po::value<size_t>()->default_value(8192), "Block size for reading")
-            ("hash,h", po::value<std::string>()->default_value("md5"), "Hash algorithm (crc32, md5)")
+            ("hash,hs", po::value<std::string>()->default_value("md5"), "Hash algorithm (crc32, md5)")
             ("version,v", "Library version")
-            ("echo,eh", "Print provided parameters");
+            ("echo,eh", "Print provided parameters")
+            ("time,t", "Output runtime of the utility");;
         // clang-format on
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -88,13 +90,26 @@ int main(int argc, char *argv[])
         std::string hashAlgo = vm["hash"].as<std::string>();
 
         std::set<std::string> excludeDirs(exclude.begin(), exclude.end());
+        // Начинаем замер времени до запуска сканирования
+        auto start = std::chrono::steady_clock::now();
 
         // Запуск сканирования
         std::vector<std::string> duplicateFiles =
             scanDirectory(dirs, excludeDirs, depth, masks, minSize, blockSize, hashAlgo);
 
+        // Останавливаем замер времени после завершения сканирования
+        auto end = std::chrono::steady_clock::now();
+
         for (const auto &file : duplicateFiles)
             std::cout << file << "\n";
+
+        // Если параметр --time указан, выводим время работы утилиты
+        if (vm.count("time"))
+        {
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            std::cout << "Elapsed time: " << duration << " ms" << std::endl;
+        }
+
     }
     catch (const std::exception &e)
     {

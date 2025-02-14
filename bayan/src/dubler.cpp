@@ -186,37 +186,63 @@ void DuplicateFinder::processFile(const fs::path &filePath)
 
 void DuplicateFinder::addFile(std::string fileName, std::size_t fileSize)
 {
-    if (!rootNode_)
+    auto it = roots_.find(fileSize);
+    if (it == roots_.end())
     {
-        rootNode_ = std::make_unique<Node>(this, std::move(fileName), fileSize, 0);
-        return;
+        // Если для данного размера ещё нет корневого узла, создаём его.
+        roots_[fileSize] = std::make_unique<Node>(this, std::move(fileName), fileSize, 0);
     }
-    try
+    else
     {
-        rootNode_->processFile(std::move(fileName), fileSize);
-    }
-    catch (...)
-    {
-        // Здесь можно добавить обработку исключений и логирование
+        try
+        {
+            // Если корневой узел для такого размера уже есть, сравниваем файл с существующими.
+            it->second->processFile(std::move(fileName), fileSize);
+        }
+        catch (...)
+        {
+            // Здесь можно добавить обработку исключений и логирование.
+        }
     }
 }
 
 std::vector<char> DuplicateFinder::readFileBlock(const std::string &filePath,
                                                  std::size_t blockNumber) const
 {
-    std::ifstream file(filePath, std::ios::binary);
-    if (!file.is_open())
-        throw std::runtime_error("Unable to open file: " + filePath);
+    // Пытаемся найти файл в кэше
+    auto it = fileCache_.find(filePath);
+    if (it == fileCache_.end())
+    {
+        // Файл ещё не открыт – открываем его и добавляем в кэш
+        FileCacheEntry entry;
+        entry.stream.open(filePath, std::ios::binary);
+        if (!entry.stream.is_open())
+            throw std::runtime_error("Unable to open file: " + filePath);
+        entry.currentBlock = 0;
+        // Вставляем в кэш
+        auto res = fileCache_.emplace(filePath, std::move(entry));
+        it = res.first;
+    }
 
-    file.seekg(blockSize_ * blockNumber, std::ios::beg);
-    if (file.fail())
-        throw std::runtime_error("Failed to seek in file: " + filePath);
+    FileCacheEntry &cacheEntry = it->second;
+    // Если запрошен блок не соответствует ожидаемому, выполняем seek
+    if (blockNumber != cacheEntry.currentBlock)
+    {
+        cacheEntry.stream.seekg(blockNumber * blockSize_, std::ios::beg);
+        if (cacheEntry.stream.fail())
+            throw std::runtime_error("Failed to seek in file: " + filePath);
+        cacheEntry.currentBlock = blockNumber;
+    }
 
+    // Читаем следующий блок
     std::vector<char> buffer(blockSize_);
-    file.read(buffer.data(), blockSize_);
-    buffer.resize(file.gcount());
-    return buffer;
+    cacheEntry.stream.read(buffer.data(), blockSize_);
+    std::streamsize bytesRead = cacheEntry.stream.gcount();
+    buffer.resize(bytesRead);
+    cacheEntry.currentBlock++; // следующий блок будет идти по порядку
+    return buffer;    
 }
+
 
 //==========================================================================
 // Node
@@ -245,6 +271,8 @@ void Node::processFile(std::string fileName, std::size_t fileSize)
         duplicateFiles_.push_back(std::move(fileName));
         if (duplicateFiles_.size() == 2)
             finder_->registerDuplicateList(duplicateFiles_);
+        // Если файл полностью обработан, удаляем его из кэша
+        finder_->fileCache_.erase(fileName);            
         return;
     }
 
