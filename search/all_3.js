@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ihashalgorithm_8',['IHashAlgorithm',['../classIHashAlgorithm.html',1,'']]]
+  ['hash_3c_20hashvalue_20_3e_7',['hash&lt; HashValue &gt;',['../structstd_1_1hash_3_01HashValue_01_4.html',1,'std']]],
+  ['hashvalue_8',['HashValue',['../structHashValue.html',1,'']]]
 ];

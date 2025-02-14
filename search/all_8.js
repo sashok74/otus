@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['scan_14',['scan',['../classDuplicateFinder.html#a17483250920d319c272952a24f552b0e',1,'DuplicateFinder']]],
-  ['std_15',['std',['../namespacestd.html',1,'']]]
+  ['readfileblock_13',['readFileBlock',['../classDuplicateFinder.html#a537f162239350497cf6af7fb06cf6b92',1,'DuplicateFinder']]],
+  ['registerduplicatelist_14',['registerDuplicateList',['../classDuplicateFinder.html#ad491cac65009cd4a3296b76a9d5a8c19',1,'DuplicateFinder']]]
 ];
