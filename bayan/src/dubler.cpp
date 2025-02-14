@@ -78,6 +78,23 @@ DuplicateFinder::DuplicateFinder(const std::vector<std::string> &directories,
     {
         throw std::invalid_argument("Unsupported hash algorithm type: " + hashAlgorithmType);
     }
+
+    // Компиляция масок в регулярные выражения
+    for (const auto &mask : fileMasks_)
+    {
+        std::string regexPattern = boost::replace_all_copy(mask, ".", "\\.");
+        boost::replace_all(regexPattern, "*", ".*");
+        boost::replace_all(regexPattern, "?", ".");
+        try
+        {
+            compiledMasks_.emplace_back(regexPattern, boost::regex::icase);
+        }
+        catch (const boost::regex_error &ex)
+        {
+            std::cerr << "Ошибка компиляции маски: " << mask << " (" << ex.what() << ")"
+                      << std::endl;
+        }
+    }
 }
 
 void DuplicateFinder::registerDuplicateList(std::vector<std::string> &duplicateList)
@@ -107,16 +124,11 @@ std::vector<std::string> DuplicateFinder::scan()
 
 bool DuplicateFinder::matchesMask(const std::string &filename) const
 {
-    if (fileMasks_.empty())
+    if (compiledMasks_.empty())
         return true;
 
-    for (const auto &mask : fileMasks_)
+    for (const auto &pattern : compiledMasks_)
     {
-        std::string regexPattern = boost::replace_all_copy(mask, ".", "\\.");
-        boost::replace_all(regexPattern, "*", ".*");
-        boost::replace_all(regexPattern, "?", ".");
-        boost::regex pattern(regexPattern, boost::regex::icase);
-
         if (boost::regex_match(filename, pattern))
             return true;
     }
@@ -209,40 +221,27 @@ void DuplicateFinder::addFile(std::string fileName, std::size_t fileSize)
 std::vector<char> DuplicateFinder::readFileBlock(const std::string &filePath,
                                                  std::size_t blockNumber) const
 {
-    // Пытаемся найти файл в кэше
-    auto it = fileCache_.find(filePath);
-    if (it == fileCache_.end())
+    FileCacheEntry *entry = fileCache_.get(filePath); ///< особенно ничего не дал. больше возьни.
+    if (!entry)
     {
-        // Файл ещё не открыт – открываем его и добавляем в кэш
-        FileCacheEntry entry;
-        entry.stream.open(filePath, std::ios::binary);
-        if (!entry.stream.is_open())
+        // Если запись отсутствует, создаём новую запись для файла.
+        FileCacheEntry newEntry;
+        newEntry.stream = std::make_unique<std::ifstream>(filePath, std::ios::binary);
+        if (!newEntry.stream || !newEntry.stream->is_open())
             throw std::runtime_error("Unable to open file: " + filePath);
-        entry.currentBlock = 0;
-        // Вставляем в кэш
-        auto res = fileCache_.emplace(filePath, std::move(entry));
-        it = res.first;
+        newEntry.currentBlock = 0;
+        // Метод put() автоматически выполнит LRU-эвакуацию, если кэш переполнен.
+        fileCache_.put(filePath, std::move(newEntry));
+        entry = fileCache_.get(filePath);
     }
 
-    FileCacheEntry &cacheEntry = it->second;
-    // Если запрошен блок не соответствует ожидаемому, выполняем seek
-    if (blockNumber != cacheEntry.currentBlock)
-    {
-        cacheEntry.stream.seekg(blockNumber * blockSize_, std::ios::beg);
-        if (cacheEntry.stream.fail())
-            throw std::runtime_error("Failed to seek in file: " + filePath);
-        cacheEntry.currentBlock = blockNumber;
-    }
-
-    // Читаем следующий блок
     std::vector<char> buffer(blockSize_);
-    cacheEntry.stream.read(buffer.data(), blockSize_);
-    std::streamsize bytesRead = cacheEntry.stream.gcount();
+    entry->stream->read(buffer.data(), blockSize_);
+    std::streamsize bytesRead = entry->stream->gcount();
     buffer.resize(bytesRead);
-    cacheEntry.currentBlock++; // следующий блок будет идти по порядку
-    return buffer;    
+    entry->currentBlock++; // обновляем номер следующего блока для последовательного чтения
+    return buffer;
 }
-
 
 //==========================================================================
 // Node
@@ -271,8 +270,6 @@ void Node::processFile(std::string fileName, std::size_t fileSize)
         duplicateFiles_.push_back(std::move(fileName));
         if (duplicateFiles_.size() == 2)
             finder_->registerDuplicateList(duplicateFiles_);
-        // Если файл полностью обработан, удаляем его из кэша
-        finder_->fileCache_.erase(fileName);            
         return;
     }
 

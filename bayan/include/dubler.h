@@ -20,6 +20,10 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+
+#include "lrucache.h"
+
+static const std::size_t MAX_OPEN_FILES = 100;
 namespace fs = boost::filesystem;
 
 /**
@@ -97,10 +101,15 @@ class MD5HashAlgorithm : public IHashAlgorithm
     virtual HashValue compute(const char *data, std::size_t length) const override;
 };
 
-/// @brief  Структура для хранения открытого файла.
-struct FileCacheEntry {
-  std::ifstream stream;
-  std::size_t currentBlock = 0; // номер следующего ожидаемого блока
+/**
+ * @brief Структура для хранения данных о кэшируемом файле.
+ */
+struct FileCacheEntry
+{
+    /// Указатель на поток для чтения файла.
+    std::unique_ptr<std::ifstream> stream;
+    /// Номер следующего ожидаемого блока для последовательного чтения.
+    std::size_t currentBlock = 0;
 };
 
 /**
@@ -165,7 +174,7 @@ class DuplicateFinder
 
   private:
     std::vector<std::vector<std::string> *> duplicateLists_; ///< Списки групп одинаковых файлов.
-   // std::unique_ptr<class Node> rootNode_; ///< Корневой узел дерева.
+    // std::unique_ptr<class Node> rootNode_; ///< Корневой узел дерева.
     std::unordered_map<std::size_t, std::unique_ptr<class Node>> roots_;
     std::vector<std::string> directories_;
     std::set<std::string> excludeDirs_;
@@ -174,7 +183,9 @@ class DuplicateFinder
     std::size_t minFileSize_;
     std::size_t blockSize_;
     std::unique_ptr<IHashAlgorithm> hashAlgorithmStrategy_; ///< Стратегия вычисления хэша.
-    mutable std::unordered_map<std::string, FileCacheEntry> fileCache_;   ///< Кэш открытых потоков.
+    mutable LRUCache<std::string, FileCacheEntry> fileCache_{MAX_OPEN_FILES};
+    std::vector<boost::regex>
+        compiledMasks_; ///< Скомпилированные регулярные выражения для масок файлов
 
     /**
      * @brief Рекурсивно обрабатывает директорию.

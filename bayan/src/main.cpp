@@ -3,7 +3,7 @@
 #include "finddub/finddub.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
-#include <chrono>    
+#include <chrono>
 #include <iostream>
 #include <set>
 #include <vector>
@@ -106,10 +106,10 @@ int main(int argc, char *argv[])
         // Если параметр --time указан, выводим время работы утилиты
         if (vm.count("time"))
         {
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            auto duration =
+                std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             std::cout << "Elapsed time: " << duration << " ms" << std::endl;
         }
-
     }
     catch (const std::exception &e)
     {
