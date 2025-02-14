@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
             ("min-size,m", po::value<size_t>()->default_value(1), "Minimum file size")
             ("mask,k", po::value<std::vector<std::string>>()->multitoken(), "File name masks")
             ("block-size,s", po::value<size_t>()->default_value(8192), "Block size for reading")
-            ("hash,hs", po::value<std::string>()->default_value("md5"), "Hash algorithm (crc32, md5)")
+            ("hash,a", po::value<std::string>()->default_value("md5"), "Hash algorithm (crc32, md5)")
             ("version,v", "Library version")
-            ("echo,eh", "Print provided parameters")
+            ("echo,r", "Print provided parameters")
             ("time,t", "Output runtime of the utility");;
         // clang-format on
         po::variables_map vm;
@@ -110,6 +110,20 @@ int main(int argc, char *argv[])
                 std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             std::cout << "Elapsed time: " << duration << " ms" << std::endl;
         }
+
+        // Если установлен параметр --time, выводим общее количество найденных файлов (исключая разделители)
+        if (vm.count("time"))
+        {
+            size_t fileCount = 0;
+            for (const auto &file : duplicateFiles)
+            {
+                if (!file.empty())
+                    ++fileCount;
+            }
+            std::cout << "\nTotal duplicate files: " << fileCount << std::endl;
+        }
+
+
     }
     catch (const std::exception &e)
     {
