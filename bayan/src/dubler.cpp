@@ -235,6 +235,15 @@ std::vector<char> DuplicateFinder::readFileBlock(const std::string &filePath,
         entry = fileCache_.get(filePath);
     }
 
+    // Если запрашиваемый блок не соответствует текущему положению, выполняем seek.
+    if (blockNumber != entry->currentBlock)
+    {
+        entry->stream->seekg(blockNumber * blockSize_, std::ios::beg);
+        if (entry->stream->fail())
+            throw std::runtime_error("Failed to seek in file: " + filePath);
+        entry->currentBlock = blockNumber;
+    }
+
     std::vector<char> buffer(blockSize_);
     entry->stream->read(buffer.data(), blockSize_);
     std::streamsize bytesRead = entry->stream->gcount();
@@ -253,19 +262,16 @@ Node::Node(DuplicateFinder *finder,
            std::size_t level)
   : finder_(finder), level_(level), initialFile_(std::move(initialFile)), fileSize_(fileSize)
 {
-    if (finder_->blockSize_ * level_ >= fileSize)
+    if (level_ > 0 && finder_->blockSize_ * (level_ - 1) >= fileSize)
     {
         duplicateFiles_.push_back(std::move(initialFile_));
-        if (duplicateFiles_.size() == 2)
-            finder_->registerDuplicateList(duplicateFiles_);
-        return;
     }
 }
 
 void Node::processFile(std::string fileName, std::size_t fileSize)
 {
     // Если достигли конца файла на данном уровне, файл считается дубликатом.
-    if (finder_->blockSize_ * level_ >= fileSize)
+    if (level_ > 0 && finder_->blockSize_ * (level_ - 1) >= fileSize)
     {
         duplicateFiles_.push_back(std::move(fileName));
         if (duplicateFiles_.size() == 2)

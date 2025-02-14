@@ -109,6 +109,13 @@ int main(int argc, char *argv[])
             auto duration =
                 std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             std::cout << "Elapsed time: " << duration << " ms" << std::endl;
+            size_t fileCount = 0;
+            for (const auto &file : duplicateFiles)
+            {
+                if (!file.empty())
+                    ++fileCount;
+            }
+            std::cout << "Total duplicate files: " << fileCount << std::endl;            
         }
     }
     catch (const std::exception &e)
