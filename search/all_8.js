@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['readfileblock_13',['readFileBlock',['../classDuplicateFinder.html#a537f162239350497cf6af7fb06cf6b92',1,'DuplicateFinder']]],
-  ['registerduplicatelist_14',['registerDuplicateList',['../classDuplicateFinder.html#ad491cac65009cd4a3296b76a9d5a8c19',1,'DuplicateFinder']]]
+  ['node_16',['Node',['../classNode.html',1,'Node'],['../classNode.html#a66d673eba374c3c88091e887afce3e92',1,'Node::Node()']]]
 ];

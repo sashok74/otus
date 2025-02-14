@@ -69,22 +69,24 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Структура для хранения открытого файла.  
+<p>Структура для хранения данных о кэшируемом файле.  
  <a href="structFileCacheEntry.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="dubler_8h_source.html">dubler.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae871f14a02b50b5bb9fe560e840042d1"><td class="memItemLeft" align="right" valign="top"><a id="ae871f14a02b50b5bb9fe560e840042d1"></a>
-std::ifstream&#160;</td><td class="memItemRight" valign="bottom"><b>stream</b></td></tr>
-<tr class="separator:ae871f14a02b50b5bb9fe560e840042d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a502d78684ae9dddcc11d30a0423075"><td class="memItemLeft" align="right" valign="top"><a id="a0a502d78684ae9dddcc11d30a0423075"></a>
+std::unique_ptr&lt; std::ifstream &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFileCacheEntry.html#a0a502d78684ae9dddcc11d30a0423075">stream</a></td></tr>
+<tr class="memdesc:a0a502d78684ae9dddcc11d30a0423075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Указатель на поток для чтения файла. <br /></td></tr>
+<tr class="separator:a0a502d78684ae9dddcc11d30a0423075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a595ce2019f134d0a4ebd4b5c92d73629"><td class="memItemLeft" align="right" valign="top"><a id="a595ce2019f134d0a4ebd4b5c92d73629"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>currentBlock</b> = 0</td></tr>
+std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFileCacheEntry.html#a595ce2019f134d0a4ebd4b5c92d73629">currentBlock</a> = 0</td></tr>
+<tr class="memdesc:a595ce2019f134d0a4ebd4b5c92d73629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Номер следующего ожидаемого блока для последовательного чтения. <br /></td></tr>
 <tr class="separator:a595ce2019f134d0a4ebd4b5c92d73629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Структура для хранения открытого файла. </p>
+<div class="textblock"><p>Структура для хранения данных о кэшируемом файле. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="dubler_8h_source.html">dubler.h</a></li>
 </ul>
