@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
                 if (!file.empty())
                     ++fileCount;
             }
-            std::cout << "Total duplicate files: " << fileCount << std::endl;            
+            std::cout << "Total duplicate files: " << fileCount << std::endl;
         }
     }
     catch (const std::exception &e)
